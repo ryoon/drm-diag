@@ -1,0 +1,817 @@
+digraph drm315 {
+
+# drm_agpsupport.c
+	drm_agp_info_ioctl -> drm_agp_info
+
+	drm_agp_acquire -> agp_backend_acquire
+	drm_agp_acquire_ioctl -> drm_agp_acquire
+
+	drm_agp_release -> agp_backend_release
+	drm_agp_release_ioctl -> drm_agp_release
+
+	drm_agp_enable -> agp_enable
+	drm_agp_enable_ioctl -> drm_agp_enable
+
+	drm_agp_alloc -> kzalloc
+	drm_agp_alloc -> agp_allocate_memory
+	drm_agp_alloc -> list_add
+
+	drm_agp_alloc_ioctl -> drm_agp_alloc
+
+	drm_agp_lookup_entry -> list_for_each_entry
+
+	drm_agp_unbind -> drm_agp_lookup_entry
+	drm_agp_unbind -> drm_unbind_agp
+
+	drm_agp_unbind_ioctl -> drm_agp_unbind
+
+	drm_agp_bind -> drm_agp_lookup_entry
+	drm_agp_bind -> drm_bind_agp
+	drm_agp_bind -> DRM_DEBUG
+
+	drm_agp_bind_ioctl -> drm_agp_bind
+
+	drm_agp_free -> drm_agp_lookup_entry
+	drm_agp_free -> drm_unbind_agp
+	drm_agp_free -> list_del
+	drm_agp_free -> drm_free_agp
+	drm_agp_free -> kfree
+
+	drm_agp_free_ioctl -> drm_agp_free
+
+	drm_agp_init -> kzalloc
+	drm_agp_init -> agp_find_bridge
+	drm_agp_init -> agp_backend_acquire
+	drm_agp_init -> kfree
+	drm_agp_init -> agp_copy_info
+	drm_agp_init -> agp_backend_release
+	drm_agp_init -> agp_copy_info
+	drm_agp_init -> kfree
+	drm_agp_init -> INIT_LIST_HEAD
+
+	drm_agp_clear -> drm_core_check_feature
+	drm_agp_clear -> list_for_each_entry_safe
+	drm_agp_clear -> drm_unbind_agp
+	drm_agp_clear -> drm_free_agp
+	drm_agp_clear -> kfree
+	drm_agp_clear -> INIT_LIST_HEAD
+	drm_agp_clear -> drm_agp_release
+
+	drm_agp_bind_pages -> agp_allocate_memory
+	drm_agp_bind_pages -> DRM_ERROR
+	drm_agp_bind_pages -> agp_bind_memory
+	drm_agp_bind_pages -> DRM_ERROR
+	drm_agp_bind_pages -> agp_free_memory
+
+# drm_auth.c
+	drm_find_file -> mutex_lock
+	drm_find_file -> drm_ht_find_item
+	drm_find_file -> drm_hash_entry
+	drm_find_file -> mutex_unlock
+
+	drm_add_magic -> DRM_DEBUG
+	drm_add_magic -> mutex_lock
+	drm_add_magic -> drm_ht_insert_item
+	drm_add_magic -> list_add_tail
+	drm_add_magic -> mutex_unlock
+
+	drm_remove_magic -> DRM_DEBUG
+	drm_remove_magic -> mutex_lock
+	drm_remove_magic -> drm_ht_find_item
+	drm_remove_magic -> mutex_unlock
+	drm_remove_magic -> drm_hash_entry
+	drm_remove_magic -> drm_ht_remove_item
+	drm_remove_magic -> list_del
+	drm_remove_magic -> mutex_unlock
+	drm_remove_magic -> kfree
+
+	drm_getmagic -> spin_lock
+	drm_getmagic -> spin_unlock
+	drm_getmagic -> drm_find_file
+	drm_getmagic -> drm_add_magic
+	drm_getmagic -> DRM_DEBUG
+
+	drm_authmagic -> DRM_DEBUG
+	drm_authmagic -> drm_find_file
+	drm_authmagic -> drm_remove_magic
+
+# drm_buffer.c
+	drm_buffer_alloc -> kzalloc
+	drm_buffer_alloc -> DRM_ERROR
+	drm_buffer_alloc -> kmalloc
+	drm_buffer_alloc -> DRM_ERROR
+	drm_buffer_alloc -> kfree
+	drm_buffer_alloc -> kfree
+	drm_buffer_alloc -> kfree
+
+	drm_buffer_copy_from_user -> DRM_ERROR
+	drm_buffer_copy_from_user -> copy_from_user
+	drm_buffer_copy_from_user -> min
+	drm_buffer_copy_from_user -> DRM_ERROR
+
+	drm_buffer_free -> kfree
+	drm_buffer_free -> kfree
+
+	drm_buffer_read_object -> drm_buffer_index
+	drm_buffer_read_object -> drm_buffer_page
+	drm_buffer_read_object -> memcpy
+	drm_buffer_read_object -> memcpy
+	drm_buffer_read_object -> drm_buffer_advance
+
+# drm_bufs.c
+	drm_find_matching_map -> list_for_each_entry
+
+	drm_map_handle -> drm_ht_insert_item
+	drm_map_handle -> ilog2
+	drm_map_handle -> drm_ht_just_insert_please
+
+	drm_addmap_core -> kmalloc
+	drm_addmap_core -> kfree
+	drm_addmap_core -> DRM_DEBUG
+	drm_addmap_core -> PAGE_ALIGN
+	drm_addmap_core -> kfree
+	drm_addmap_core -> virt_to_phys
+	drm_addmap_core -> kfree
+	drm_addmap_core -> drm_find_matching_map
+	drm_addmap_core -> DRM_DEBUG
+	drm_addmap_core -> kfree
+	drm_addmap_core -> arch_phys_wc_add
+	drm_addmap_core -> ioremap_wc
+	drm_addmap_core -> ioremap
+	drm_addmap_core -> kfree
+	drm_addmap_core -> drm_find_matching_map
+	drm_addmap_core -> DRM_DEBUG
+	drm_addmap_core -> kfree
+	drm_addmap_core -> vmalloc_user
+	drm_addmap_core -> DRM_DEBUG
+	drm_addmap_core -> kfree
+	drm_addmap_core -> vfree
+	drm_addmap_core -> kfree
+	drm_addmap_core -> kfree
+	drm_addmap_core -> list_for_each_entry
+	drm_addmap_core -> list_empty
+	drm_addmap_core -> kfree
+	drm_addmap_core -> DRM_DEBUG
+	drm_addmap_core -> kfree
+	drm_addmap_core -> drm_pci_alloc
+	drm_addmap_core -> kfree
+	drm_addmap_core -> kfree
+	drm_addmap_core -> kfree
+	drm_addmap_core -> kzalloc
+	drm_addmap_core -> iounmap
+	drm_addmap_core -> kfree
+	drm_addmap_core -> mutex_lock
+	drm_addmap_core -> list_add
+	drm_addmap_core -> drm_map_handle
+	drm_addmap_core -> iounmap
+	drm_addmap_core -> kfree
+	drm_addmap_core -> kfree
+	drm_addmap_core -> mutex_unlock
+	drm_addmap_core -> mutex_unlock
+
+	drm_addmap -> drm_addmap_core
+
+	drm_addmap_ioctl -> capable
+	drm_addmap_ioctl -> drm_addmap_core
+
+	drm_rmmap_locked -> list_for_each_entry_safe
+	drm_rmmap_locked -> list_del
+	drm_rmmap_locked -> drm_ht_remove_key
+	drm_rmmap_locked -> kfree
+	drm_rmmap_locked -> iounmap
+	drm_rmmap_locked -> arch_phys_wc_del
+	drm_rmmap_locked -> vfree
+	drm_rmmap_locked -> wake_up_interruptible_all
+	drm_rmmap_locked -> __drm_pci_free
+	drm_rmmap_locked -> kfree
+
+	drm_rmmap -> mutex_lock
+	drm_rmmap -> drm_rmmap_locked
+	drm_rmmap -> mutex_unlock
+
+	drm_rmmap_ioctl -> mutex_lock
+	drm_rmmap_ioctl -> list_for_each_entry
+	drm_rmmap_ioctl -> list_empty
+	drm_rmmap_ioctl -> mutex_unlock
+	drm_rmmap_ioctl -> mutex_unlock
+	drm_rmmap_ioctl -> drm_rmmap_locked
+	drm_rmmap_ioctl -> mutex_unlock
+
+	drm_cleanup_buf_error -> drm_pci_free
+	drm_cleanup_buf_error -> kfree
+	drm_cleanup_buf_error -> kfree
+	drm_cleanup_buf_error -> kfree
+
+	drm_addbufs_agp -> order_base_2
+	drm_addbufs_agp -> PAGE_ALIGN
+	drm_addbufs_agp -> DRM_DEBUG
+	drm_addbufs_agp -> list_for_each_entry
+	drm_addbufs_agp -> list_empty
+	drm_addbufs_agp -> spin_lock
+	drm_addbufs_agp -> spin_unlock
+	drm_addbufs_agp -> atomic_inc
+	drm_addbufs_agp -> mutex_unlock
+	drm_addbufs_agp -> atomic_dec
+	drm_addbufs_agp -> kzalloc
+	drm_addbufs_agp -> drm_cleanup_buf_error
+	drm_addbufs_agp -> mutex_unlock
+	drm_addbufs_agp -> atomic_dec
+	drm_addbufs_agp -> krealloc
+	drm_addbufs_agp -> drm_cleanup_buf_error
+	drm_addbufs_agp -> mutex_unlock
+	drm_addbufs_agp -> atomic_dec
+	drm_addbufs_agp -> mutex_unlock
+	drm_addbufs_agp -> atomic_dec
+
+	drm_addbufs_pci -> order_base_2
+	drm_addbufs_pci -> DRM_DEBUG
+	drm_addbufs_pci -> PAGE_ALIGN
+	drm_addbufs_pci -> spin_lock
+	drm_addbufs_pci -> spin_unlock
+	drm_addbufs_pci -> atomic_inc
+	drm_addbufs_pci -> spin_unlock
+	drm_addbufs_pci -> mutex_lock
+	drm_addbufs_pci -> mutex_unlock
+	drm_addbufs_pci -> atomic_dec
+	drm_addbufs_pci -> mutex_unlock
+	drm_addbufs_pci -> atomic_dec
+	drm_addbufs_pci -> kzalloc
+	drm_addbufs_pci -> mutex_unlock
+	drm_addbufs_pci -> atomic_dec
+	drm_addbufs_pci -> kzalloc
+	drm_addbufs_pci -> kfree
+	drm_addbufs_pci -> mutex_unlock
+	drm_addbufs_pci -> atomic_dec
+	drm_addbufs_pci -> kmalloc
+	drm_addbufs_pci -> kfree
+	drm_addbufs_pci -> kfree
+	drm_addbufs_pci -> mutex_unlock
+	drm_addbufs_pci -> atomic_dec
+	drm_addbufs_pci -> memcpy
+	drm_addbufs_pci -> drm_pci_alloc
+	drm_addbufs_pci -> drm_cleanup_buf_error
+	drm_addbufs_pci -> kfree
+	drm_addbufs_pci -> mutex_unlock
+	drm_addbufs_pci -> atomic_dec
+	drm_addbufs_pci -> kzalloc
+	drm_addbufs_pci -> drm_cleanup_buf_error
+	drm_addbufs_pci -> kfree
+	drm_addbufs_pci -> mutex_unlock
+	drm_addbufs_pci -> atomic_dec
+	drm_addbufs_pci -> krealloc
+	drm_addbufs_pci -> drm_cleanup_buf_error
+	drm_addbufs_pci -> kfree
+	drm_addbufs_pci -> mutex_unlock
+	drm_addbufs_pci -> atomic_dec
+	drm_addbufs_pci -> kfree
+	drm_addbufs_pci -> mutex_unlock
+	drm_addbufs_pci -> atomic_dec
+
+	drm_addbufs_sg -> drm_core_check_feature
+	drm_addbufs_sg -> capable
+	drm_addbufs_sg -> order_base_2
+	drm_addbufs_sg -> PAGE_ALIGN
+	drm_addbufs_sg -> DRM_DEBUG
+	drm_addbufs_sg -> spin_lock
+	drm_addbufs_sg -> spin_unlock
+	drm_addbufs_sg -> atomic_inc
+	drm_addbufs_sg -> spin_unlock
+	drm_addbufs_sg -> mutex_lock
+	drm_addbufs_sg -> mutex_unlock
+	drm_addbufs_sg -> atomic_dec
+	drm_addbufs_sg -> mutex_unlock
+	drm_addbufs_sg -> atomic_dec
+	drm_addbufs_sg -> kzalloc
+	drm_addbufs_sg -> mutex_unlock
+	drm_addbufs_sg -> atomic_dec
+	drm_addbufs_sg -> kzalloc
+	drm_addbufs_sg -> drm_cleanup_buf_error
+	drm_addbufs_sg -> mutex_unlock
+	drm_addbufs_sg -> atomic_dec
+	drm_addbufs_sg -> krealloc
+	drm_addbufs_sg -> drm_cleanup_buf_error
+	drm_addbufs_sg -> mutex_unlock
+	drm_addbufs_sg -> atomic_dec
+	drm_addbufs_sg -> mutex_unlock
+	drm_addbufs_sg -> atomic_dec
+
+	drm_addbufs -> drm_core_check_feature
+	drm_addbufs -> drm_core_check_feature
+	drm_addbufs -> drm_addbufs_agp
+	drm_addbufs -> drm_addbufs_sg
+	drm_addbufs -> drm_addbufs_pci
+
+	drm_infobufs -> drm_core_check_feature
+	drm_infobufs -> drm_core_check_feature
+	drm_infobufs -> spin_lock
+	drm_infobufs -> atomic_read
+	drm_infobufs -> spin_unlock
+	drm_infobufs -> spin_unlock
+	drm_infobufs -> DRM_DEBUG
+	drm_infobufs -> copy_to_user
+	drm_infobufs -> copy_to_user
+	drm_infobufs -> copy_to_user
+	drm_infobufs -> copy_to_user
+
+	drm_markbufs -> drm_core_check_feature
+	drm_markbufs -> drm_core_check_feature
+	drm_markbufs -> DRM_DEBUG
+	drm_markbufs -> order_base_2
+
+	drm_freebufs -> drm_core_check_feature
+	drm_freebufs -> drm_core_check_feature
+	drm_freebufs -> DRM_DEBUG
+	drm_freebufs -> copy_from_user
+	drm_freebufs -> DRM_ERROR
+	drm_freebufs -> drm_free_buffer
+
+	drm_mapbufs -> drm_core_check_feature
+	drm_mapbufs -> drm_core_check_feature
+	drm_mapbufs -> spin_lock
+	drm_mapbufs -> atomic_read
+	drm_mapbufs -> spin_unlock
+	drm_mapbufs -> spin_unlock
+	drm_mapbufs -> drm_core_check_feature
+	drm_mapbufs -> vm_mmap
+	drm_mapbufs -> vm_mmap
+	drm_mapbufs -> copy_to_user
+	drm_mapbufs -> copy_to_user
+	drm_mapbufs -> copy_to_user
+	drm_mapbufs -> copy_to_user
+	drm_mapbufs -> DRM_DEBUG
+
+	drm_dma_ioctl -> drm_core_check_feature
+	drm_dma_ioctl -> drm_core_check_feature
+	# function pointer
+	drm_dma_ioctl -> "dev->driver->dma_ioctl"
+	"dev->driver->dma_ioctl" [style=filled, fillcolor=blue]
+
+	drm_getsarea -> list_for_each_entry
+
+# drm_cache.c
+	drm_clflush_page -> unlikely
+	drm_clflush_page -> kmap_atomic
+	drm_clflush_page -> clflushopt
+	drm_clflush_page -> kunmap_atomic
+
+	drm_cache_flush_clflush -> mb
+	drm_cache_flush_clflush -> drm_clflush_page
+	drm_cache_flush_clflush -> mb
+
+	drm_clflush_ipi_handler -> wbinvd
+
+	drm_clflush_pages -> drm_cache_flush_clflush
+	drm_clflush_pages -> on_each_cpu
+	drm_clflush_pages -> printk
+	# PowerPC support code is omitted.
+
+	drm_clflush_sg -> for_each_sg_page
+	drm_clflush_sg -> drm_clflush_page
+	drm_clflush_sg -> sg_page_iter_page
+	drm_clflush_sg -> on_each_cpu
+	drm_clflush_sg -> printk
+
+	drm_clflush_virt_range -> clflush
+	drm_clflush_virt_range -> clflushopt
+	drm_clflush_virt_range -> mb
+	drm_clflush_virt_range -> on_each_cpu
+	drm_clflush_virt_range -> printk
+
+# drm_context.c
+	drm_ctxbitmap_free -> mutex_lock
+	drm_ctxbitmap_free -> idr_remove
+	drm_ctxbitmap_free -> mutex_unlock
+
+	drm_ctxbitmap_next -> mutex_lock
+	drm_ctxbitmap_next -> idr_alloc
+	drm_ctxbitmap_next -> mutex_unlock
+
+	drm_ctxbitmap_init -> idr_init
+
+	drm_ctxbitmap_cleanup -> mutex_lock
+	drm_ctxbitmap_cleanup -> idr_destroy
+	drm_ctxbitmap_cleanup -> mutex_unlock
+
+	drm_getsareactx -> mutex_lock
+	drm_getsareactx -> idr_find
+	drm_getsareactx -> mutex_unlock
+	drm_getsareactx -> list_for_each_entry
+	drm_getsareactx -> mutex_unlock
+
+	drm_setsareactx -> mutex_lock
+	drm_setsareactx -> list_for_each_entry
+	drm_setsareactx -> mutex_unlock
+	drm_setsareactx -> IS_ERR
+	drm_setsareactx -> mutex_unlock
+
+	drm_context_switch -> test_and_set_bit
+	drm_context_switch -> DRM_ERROR
+	drm_context_switch -> DRM_DEBUG
+	drm_context_switch -> clear_bit
+
+	drm_context_switch_complete -> _DRM_LOCK_IS_HELD
+	drm_context_switch_complete -> DRM_ERROR
+	drm_context_switch_complete -> clear_bit
+
+	drm_resctx -> memset
+	drm_resctx -> copy_to_user
+
+	drm_addctx -> drm_ctxbitmap_next
+	drm_addctx -> drm_ctxbitmap_next
+	drm_addctx -> DRM_DEBUG
+	drm_addctx -> kmalloc
+	drm_addctx -> INIT_LIST_HEAD
+	drm_addctx -> mutex_lock
+	drm_addctx -> list_add
+	drm_addctx -> mutex_unlock
+
+	drm_switchctx -> DRM_DEBUG
+	drm_switchctx -> drm_context_switch
+
+	drm_newctx -> DRM_DEBUG
+	drm_newctx -> drm_context_switch_complete
+
+	drm_rmctx -> DRM_DEBUG
+	# function pointer
+	drm_rmctx -> "dev->driver->context_dtor"
+	"dev->driver->context_dtor" [style=filled, fillcolor=blue]
+	drm_rmctx -> drm_ctxbitmap_free
+	drm_rmctx -> mutex_lock
+	drm_rmctx -> list_for_each_entry_safe
+	drm_rmctx -> list_del
+	drm_rmctx -> kfree
+	drm_rmctx -> mutex_unlock
+
+# drm_crtc.c
+	drm_modeset_lock_all -> mutex_lock
+	drm_modeset_lock_all -> list_for_each_entry
+	drm_modeset_lock_all -> mutex_lock_nest_lock
+
+	drm_modeset_unlock_all -> list_for_each_entry
+	drm_modeset_unlock_all -> mutex_unlock
+	drm_modeset_unlock_all -> mutex_unlock
+
+	drm_warn_on_modeset_not_all_locked -> list_for_each_entry
+	drm_warn_on_modeset_not_all_locked -> WARN_ON
+	drm_warn_on_modeset_not_all_locked -> mutex_is_locked
+	drm_warn_on_modeset_not_all_locked -> WARN_ON
+	drm_warn_on_modeset_not_all_locked -> mutex_is_locked
+
+	DRM_ENUM_NAME_FN -> fnname
+	fnname [style=filled, fillcolor=green]
+	DRM_ENUM_NAME_FN -> ARRAY_SIZE
+
+	fnname -> drm_get_dpms_name [arrowhead=none]
+
+	fnname -> drm_get_dvi_i_select_name [arrowhead=none]
+
+	fnname -> drm_get_dvi_i_subconnector_name [arrowhead=none]
+
+	fnname -> drm_get_tv_select_name [arrowhead=none]
+
+	fnname -> drm_get_tv_subconnector_name [arrowhead=none]
+
+	drm_connector_ida_init -> ARRAY_SIZE
+	drm_connector_ida_init -> ida_init
+
+	drm_connector_ida_destroy -> ARRAY_SIZE
+	drm_connector_ida_destroy -> ida_destroy
+
+	drm_get_encoder_name -> snprintf
+
+	drm_get_connector_name -> snprintf
+
+	printable_char -> isascii
+	printable_char -> isprint
+
+	drm_get_format_name -> snprintf
+	drm_get_format_name -> printable_char
+	drm_get_format_name -> printable_char
+	drm_get_format_name -> printable_char
+	drm_get_format_name -> printable_char
+
+	drm_mode_object_get -> mutex_lock
+	drm_mode_object_get -> idr_alloc
+	drm_mode_object_get -> mutex_unlock
+
+	drm_mode_object_put -> mutex_lock
+	drm_mode_object_put -> idr_remove
+	drm_mode_object_put -> mutex_unlock
+
+	drm_mode_object_find -> WARN_ON
+	drm_mode_object_find -> mutex_lock
+	drm_mode_object_find -> idr_find
+	drm_mode_object_find -> mutex_unlock
+
+	drm_framebuffer_init -> mutex_lock
+	drm_framebuffer_init -> kref_init
+	drm_framebuffer_init -> INIT_LIST_HEAD
+	drm_framebuffer_init -> drm_mode_object_get
+	drm_framebuffer_init -> drm_framebuffer_reference
+	drm_framebuffer_init -> list_add
+	drm_framebuffer_init -> mutex_unlock
+
+	drm_framebuffer_free -> container_of
+	drm_framebuffer_free -> "fb->funcs->destroy"
+	"fb->funcs->destroy" [style=filled, fillcolor=blue]
+
+	__drm_framebuffer_lookup -> mutex_lock
+	__drm_framebuffer_lookup -> idr_find
+	__drm_framebuffer_lookup -> obj_to_fb
+	__drm_framebuffer_lookup -> mutex_unlock
+
+	drm_framebuffer_lookup -> mutex_lock
+	drm_framebuffer_lookup -> __drm_framebuffer_lookup
+	drm_framebuffer_lookup -> drm_framebuffer_reference
+	drm_framebuffer_lookup -> mutex_unlock
+
+	drm_framebuffer_unreference -> DRM_DEBUG
+	drm_framebuffer_unreference -> kref_put
+
+	drm_framebuffer_reference -> DRM_DEBUG
+	drm_framebuffer_reference -> kref_get
+
+	drm_framebuffer_free_bug -> BUG
+
+	__drm_framebuffer_unreference -> DRM_DEBUG
+	__drm_framebuffer_unreference -> kref_put
+
+	__drm_framebuffer_unregister -> mutex_lock
+	__drm_framebuffer_unregister -> idr_remove
+	__drm_framebuffer_unregister -> mutex_unlock
+	__drm_framebuffer_unregister -> __drm_framebuffer_unreference
+
+	drm_framebuffer_unregister_private -> mutex_lock
+	drm_framebuffer_unregister_private -> __drm_framebuffer_unregister
+	drm_framebuffer_unregister_private -> mutex_unlock
+
+	drm_framebuffer_cleanup -> mutex_lock
+	drm_framebuffer_cleanup -> list_del
+	drm_framebuffer_cleanup -> mutex_unlock
+
+	drm_framebuffer_remove -> WARN_ON
+	drm_framebuffer_remove -> atomic_read
+	drm_framebuffer_remove -> drm_modeset_lock_all
+	drm_framebuffer_remove -> list_for_each_entry
+	drm_framebuffer_remove -> memset
+	drm_framebuffer_remove -> DRM_ERROR
+	drm_framebuffer_remove -> list_for_each_entry
+	drm_framebuffer_remove -> drm_plane_force_disable
+	drm_framebuffer_remove -> drm_modeset_unlock_all
+	drm_framebuffer_remove -> drm_framebuffer_unreference
+
+	drm_crtc_init_with_planes -> drm_modeset_lock_all
+	drm_crtc_init_with_planes -> mutex_init
+	drm_crtc_init_with_planes -> mutex_lock_nest_lock
+	drm_crtc_init_with_planes -> drm_mode_object_get
+	drm_crtc_init_with_planes -> list_add_tail
+	drm_crtc_init_with_planes -> drm_crtc_index
+	drm_crtc_init_with_planes -> drm_modeset_unlock_all
+
+	drm_crtc_cleanup -> kfree
+	drm_crtc_cleanup -> drm_mode_object_put
+	drm_crtc_cleanup -> list_del
+
+	drm_crtc_index -> list_for_each_entry
+	drm_crtc_index -> BUG
+
+	drm_mode_remove -> list_del
+	drm_mode_remove -> drm_mode_destroy
+
+	drm_connector_init -> drm_modeset_lock_all
+	drm_connector_init -> drm_mode_object_get
+	drm_connector_init -> ida_simple_get
+	drm_connector_init -> drm_mode_object_put
+	drm_connector_init -> INIT_LIST_HEAD
+	drm_connector_init -> INIT_LIST_HEAD
+	drm_connector_init -> list_add_tail
+	drm_connector_init -> drm_object_attach_property
+	drm_connector_init -> drm_object_attach_property
+	drm_connector_init -> drm_modeset_unlock_all
+
+	drm_connector_cleanup -> list_for_each_entry_safe
+	drm_connector_cleanup -> drm_mode_remove
+	drm_connector_cleanup -> list_for_each_entry_safe
+	drm_connector_cleanup -> drm_mode_remove
+	drm_connector_cleanup -> ida_remove
+	drm_connector_cleanup -> drm_mode_object_put
+	drm_connector_cleanup -> list_del
+
+	drm_connector_unplug_all -> list_for_each_entry
+	drm_connector_unplug_all -> drm_sysfs_connector_remove
+
+	drm_bridge_init -> drm_modeset_lock_all
+	drm_bridge_init -> drm_mode_object_get
+	drm_bridge_init -> list_add_tail
+	drm_bridge_init -> drm_modeset_unlock_all
+
+	drm_bridge_cleanup -> drm_modeset_lock_all
+	drm_bridge_cleanup -> drm_mode_object_put
+	drm_bridge_cleanup -> list_del
+	drm_bridge_cleanup -> drm_modeset_unlock_all
+
+	drm_encoder_init -> drm_modeset_lock_all
+	drm_encoder_init -> drm_mode_object_get
+	drm_encoder_init -> list_add_tail
+	drm_encoder_init -> drm_modeset_unlock_all
+
+	drm_encoder_cleanup -> drm_modeset_lock_all
+	drm_encoder_cleanup -> drm_mode_object_put
+	drm_encoder_cleanup -> list_del
+	drm_encoder_cleanup -> drm_modeset_unlock_all
+
+	drm_universal_plane_init -> drm_modeset_lock_all
+	drm_universal_plane_init -> drm_mode_object_get
+	drm_universal_plane_init -> kmalloc
+	drm_universal_plane_init -> DRM_DEBUG_KMS
+	drm_universal_plane_init -> drm_mode_object_put
+	drm_universal_plane_init -> memcpy
+	drm_universal_plane_init -> list_add_tail
+	drm_universal_plane_init -> drm_object_attach_property
+	drm_universal_plane_init -> drm_modeset_unlock_all
+
+	drm_plane_init -> drm_universal_plane_init
+
+	drm_plane_cleanup -> drm_modeset_lock_all
+	drm_plane_cleanup -> kfree
+	drm_plane_cleanup -> drm_mode_object_put
+	drm_plane_cleanup -> BUG_ON
+	drm_plane_cleanup -> list_del
+	drm_plane_cleanup -> drm_modeset_unlock_all
+
+	drm_plane_force_disable -> "plane->funcs->disable_plane"
+	"plane->funcs->disable_plane" [style=filled, color=blue]
+	drm_plane_force_disable -> DRM_ERROR
+	drm_plane_force_disable -> __drm_framebuffer_unreference
+
+	drm_mode_create_standard_connector_properties -> drm_property_create
+	drm_mode_create_standard_connector_properties -> drm_property_create_enum
+	drm_mode_create_standard_connector_properties -> ARRAY_SIZE
+
+	drm_mode_create_standard_plane_properties -> drm_property_create_enum
+	drm_mode_create_standard_plane_properties -> ARRAY_SIZE
+
+	drm_mode_create_dvi_i_properties -> drm_property_create_enum
+	drm_mode_create_dvi_i_properties -> ARRAY_SIZE
+	drm_mode_create_dvi_i_properties -> drm_property_create_enum
+	drm_mode_create_dvi_i_properties -> ARRAY_SIZE
+
+	drm_mode_create_tv_properties -> drm_property_create_enum
+	drm_mode_create_tv_properties -> ARRAY_SIZE
+	drm_mode_create_tv_properties -> drm_property_create_enum
+	drm_mode_create_tv_properties -> ARRAY_SIZE
+	drm_mode_create_tv_properties -> drm_property_create_range
+	drm_mode_create_tv_properties -> drm_property_create_range
+	drm_mode_create_tv_properties -> drm_property_create_range
+	drm_mode_create_tv_properties -> drm_property_create_range
+	drm_mode_create_tv_properties -> drm_property_create
+	drm_mode_create_tv_properties -> drm_property_add_enum
+	drm_mode_create_tv_properties -> drm_property_create_range
+	drm_mode_create_tv_properties -> drm_property_create_range
+	drm_mode_create_tv_properties -> drm_property_create_range
+	drm_mode_create_tv_properties -> drm_property_create_range
+	drm_mode_create_tv_properties -> drm_property_create_range
+	drm_mode_create_tv_properties -> drm_property_create_range
+
+	drm_mode_create_scaling_mode_property -> drm_property_create_enum
+	drm_mode_create_scaling_mode_property -> ARRAY_SIZE
+
+	drm_mode_create_dirty_info_property -> drm_property_create_enum
+	drm_mode_create_dirty_info_property -> ARRAY_SIZE
+
+	drm_mode_group_init -> kzalloc
+
+	drm_mode_group_init_legacy_group -> drm_mode_group_init
+	drm_mode_group_init_legacy_group -> list_for_each_entry
+	drm_mode_group_init_legacy_group -> list_for_each_entry
+	drm_mode_group_init_legacy_group -> list_for_each_entry
+	drm_mode_group_init_legacy_group -> list_for_each_entry
+
+	drm_crtc_convert_to_umode -> WARN
+	drm_crtc_convert_to_umode -> strncpy
+
+	drm_crtc_convert_umode -> strncpy
+
+	drm_mode_getresources -> drm_core_check_feature
+	drm_mode_getresources -> mutex_lock
+	drm_mode_getresources -> list_for_each
+	drm_mode_getresources -> list_for_each_entry
+	drm_mode_getresources -> put_user
+	drm_mode_getresources -> mutex_unlock
+	drm_mode_getresources -> mutex_unlock
+	drm_mode_getresources -> drm_modeset_lock_all
+	drm_mode_getresources -> drm_is_primary_client
+	drm_mode_getresources -> list_for_each
+	drm_mode_getresources -> list_for_each
+	drm_mode_getresources -> list_for_each
+	drm_mode_getresources -> list_for_each_entry
+	drm_mode_getresources -> DRM_DEBUG_KMS
+	drm_mode_getresources -> put_user
+	drm_mode_getresources -> put_user
+	drm_mode_getresources -> list_for_each_entry
+	drm_mode_getresources -> DRM_DEBUG_KMS
+	drm_mode_getresources -> put_user
+	drm_mode_getresources -> put_user
+	drm_mode_getresources -> list_for_each_entry
+	drm_mode_getresources -> DRM_DEBUG_KMS
+	drm_mode_getresources -> put_user
+	drm_mode_getresources -> put_user
+	drm_mode_getresources -> DRM_DEBUG_KMS
+	drm_mode_getresources -> drm_modeset_unlock_all
+
+	drm_mode_getcrtc -> drm_core_check_feature
+	drm_mode_getcrtc -> drm_modeset_lock_all
+	drm_mode_getcrtc -> drm_mode_object_find
+	drm_mode_getcrtc -> obj_to_crtc
+	drm_mode_getcrtc -> drm_crtc_convert_to_umode
+	drm_mode_getcrtc -> drm_modeset_unlock_all
+
+	drm_mode_getconnector -> drm_core_check_feature
+	drm_mode_getconnector -> memset
+	drm_mode_getconnector -> DRM_DEBUG_KMS
+	drm_mode_getconnector -> mutex_lock
+	drm_mode_getconnector -> drm_mode_object_find
+	drm_mode_getconnector -> obj_to_connector
+	drm_mode_getconnector -> list_for_each_entry
+	drm_mode_getconnector -> drm_mode_expose_to_userspace
+	drm_mode_getconnector -> list_for_each_entry
+	drm_mode_getconnector -> drm_mode_expose_to_userspace
+	drm_mode_getconnector -> drm_crtc_convert_to_umode
+	drm_mode_getconnector -> copy_to_user
+	drm_mode_getconnector -> put_user
+	drm_mode_getconnector -> put_user
+	drm_mode_getconnector -> mutex_unlock
+
+	drm_mode_getencoder -> drm_core_check_feature
+	drm_mode_getencoder -> drm_modeset_lock_all
+	drm_mode_getencoder -> drm_mode_object_find
+	drm_mode_getencoder -> obj_to_encoder
+	drm_mode_getencoder -> drm_modeset_unlock_all
+
+	drm_mode_getplane_res -> drm_core_check_feature
+	drm_mode_getplane_res -> drm_modeset_lock_all
+	drm_mode_getplane_res -> list_for_each_entry
+	drm_mode_getplane_res -> drm_modeset_unlock_all
+
+	drm_mode_getplane -> drm_core_check_feature
+	drm_mode_getplane -> drm_modeset_lock_all
+	drm_mode_getplane -> drm_mode_object_find
+	drm_mode_getplane -> obj_to_plane
+	drm_mode_getplane -> copy_to_user
+	drm_mode_getplane -> drm_modeset_unlock_all
+
+	drm_mode_setplane -> drm_core_check_feature
+	drm_mode_setplane -> drm_mode_object_find
+	drm_mode_setplane -> DRM_DEBUG_KMS
+	drm_mode_setplane -> obj_to_plane
+	drm_mode_setplane -> drm_modeset_lock_all
+	drm_mode_setplane -> "plane->funcs->disable_plane"
+	"plane->funcs->disable_plane" [style=filled, fillcolor=blue]
+	drm_mode_setplane -> drm_modeset_unlock_all
+	drm_mode_setplane -> drm_mode_object_find
+	drm_mode_setplane -> DRM_DEBUG_KMS
+	drm_mode_setplane -> obj_to_crtc
+	drm_mode_setplane -> drm_framebuffer_lookup
+	drm_mode_setplane -> DRM_DEBUG_KMS
+	drm_mode_setplane -> drm_modeset_lock_all
+	drm_mode_setplane -> "ret = plane->funcs->update_plane"
+	"ret = plane->funcs->update_plane" [style=filled, fillcolor=blue]
+	drm_mode_setplane -> drm_modeset_unlock_all
+	drm_mode_setplane -> drm_framebuffer_unreference
+	drm_mode_setplane -> drm_framebuffer_unreference
+
+	drm_mode_set_config_internal -> list_for_each_entry
+	drm_mode_set_config_internal -> "crtc->funcs->set_config"
+	"crtc->funcs->set_config" [style=filled, fillcolor=blue]
+	drm_mode_set_config_internal -> WARN_ON
+	drm_mode_set_config_internal -> list_for_each_entry
+	drm_mode_set_config_internal -> drm_framebuffer_reference
+	drm_mode_set_config_internal -> drm_framebuffer_unreference
+
+	drm_crtc_check_viewport -> drm_mode_set_crtcinfo
+	drm_crtc_check_viewport -> swap
+	drm_crtc_check_viewport -> DRM_DEBUG_KMS
+
+	drm_mode_setcrtc -> drm_core_check_feature
+	drm_mode_setcrtc -> drm_modeset_lock_all
+	drm_mode_setcrtc -> drm_mode_object_find
+	drm_mode_setcrtc -> DRM_DEBUG_KMS
+	drm_mode_setcrtc -> obj_to_crtc
+	drm_mode_setcrtc -> drm_framebuffer_reference
+	drm_mode_setcrtc -> drm_framebuffer_lookup
+	drm_mode_setcrtc -> drm_mode_create
+	drm_mode_setcrtc -> drm_crtc_convert_umode
+	drm_mode_setcrtc -> drm_mode_set_crtcinfo
+	drm_mode_setcrtc -> drm_crtc_check_viewport
+	drm_mode_setcrtc -> kmalloc
+	drm_mode_setcrtc -> get_user
+	drm_mode_setcrtc -> drm_mode_object_find
+	drm_mode_setcrtc -> drm_mode_set_config_internal
+	drm_mode_setcrtc -> drm_framebuffer_unreference
+	drm_mode_setcrtc -> kfree
+	drm_mode_setcrtc -> drm_mode_destroy
+	drm_mode_setcrtc -> drm_modeset_unlock_all
+
+	drm_mode_cursor_common -> 
+
+}
