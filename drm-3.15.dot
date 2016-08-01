@@ -812,6 +812,1265 @@ digraph drm315 {
 	drm_mode_setcrtc -> drm_mode_destroy
 	drm_mode_setcrtc -> drm_modeset_unlock_all
 
-	drm_mode_cursor_common -> 
+	drm_mode_cursor_common -> drm_core_check_feature
+	drm_mode_cursor_common -> drm_mode_object_find
+	drm_mode_cursor_common -> DRM_DEBUG_KMS
+	drm_mode_cursor_common -> obj_to_crtc
+	drm_mode_cursor_common -> mutex_lock
+	drm_mode_cursor_common -> "crtc->funcs->cursor_set2"
+	"crtc->funcs->cursor_set2" [style=filled, fillcolor=blue]
+	drm_mode_cursor_common -> "crtc->funcs->cursor_set"
+	"crtc->funcs->cursor_set" [style=filled, fillcolor=blue]
+	drm_mode_cursor_common -> "crtc->funcs->cursor_move"
+	"crtc->funcs->cursor_move" [style=filled, fillcolor=blue]
+	drm_mode_cursor_common -> mutex_unlock
+
+	drm_mode_cursor_ioctl -> memcpy
+	drm_mode_cursor_ioctl -> drm_mode_cursor_common
+
+	drm_mode_cursor2_ioctl -> drm_mode_cursor_common
+
+	drm_mode_legacy_fb_format -> DRM_ERROR
+
+	drm_mode_addfb -> drm_mode_legacy_fb_format
+	drm_mode_addfb -> drm_core_check_feature
+	drm_mode_addfb -> "dev->mode_config.funcs->fb_create"
+	"dev->mode_config.funcs->fb_create" [style=filled, fillcolor=blue]
+	drm_mode_addfb -> DRM_DEBUG_KMS
+	drm_mode_addfb -> PTR_ERR
+	drm_mode_addfb -> mutex_lock
+	drm_mode_addfb -> list_add
+	drm_mode_addfb -> mutex_unlock
+
+	format_check -> DRM_DEBUG_KMS
+
+	framebuffer_check -> DRM_DEBUG_KMS
+	framebuffer_check -> drm_format_horz_chroma_subsampling
+	framebuffer_check -> drm_format_vert_chroma_subsampling
+	framebuffer_check -> drm_format_num_planes
+	framebuffer_check -> DRM_DEBUG_KMS
+	framebuffer_check -> drm_format_plane_cpp
+
+	drm_mode_addfb2 -> drm_core_check_feature
+	drm_mode_addfb2 -> DRM_DEBUG_KMS
+	drm_mode_addfb2 -> framebuffer_check
+	drm_mode_addfb2 -> "dev->mode_config.funcs->fb_create"
+	"dev->mode_config.funcs->fb_create" [style=filled, fillcolor=blue]
+	drm_mode_addfb2 -> IS_ERR
+	drm_mode_addfb2 -> PTR_ERR
+	drm_mode_addfb2 -> mutex_lock
+	drm_mode_addfb2 -> list_add
+	drm_mode_addfb2 -> mutex_unlock
+
+	drm_mode_rmfb -> drm_core_check_feature
+	drm_mode_rmfb -> mutex_lock
+	drm_mode_rmfb -> mutex_lock
+	drm_mode_rmfb -> __drm_framebuffer_lookup
+	drm_mode_rmfb -> list_for_each_entry
+	drm_mode_rmfb -> list_del_init
+	drm_mode_rmfb -> mutex_unlock
+	drm_mode_rmfb -> mutex_unlock
+	drm_mode_rmfb -> drm_framebuffer_remove
+	drm_mode_rmfb -> mutex_unlock
+	drm_mode_rmfb -> mutex_unlock
+
+	drm_mode_getfb -> drm_core_check_feature
+	drm_mode_getfb -> drm_framebuffer_lookup
+	drm_mode_getfb -> drm_is_control_client
+	drm_mode_getfb -> "fb->funcs->create_handle"
+	"fb->funcs->create_handle" [style=filled, fillcolor=blue]
+	drm_mode_getfb -> drm_framebuffer_unreference
+
+	drm_mode_dirtyfb_ioctl -> drm_core_check_feature
+	drm_mode_dirtyfb_ioctl -> drm_framebuffer_lookup
+	drm_mode_dirtyfb_ioctl -> kzalloc
+	drm_mode_dirtyfb_ioctl -> copy_from_user
+	drm_mode_dirtyfb_ioctl -> "fb->funcs->dirty"
+	"fb->funcs->dirty" [style=filled, fillcolor=blue]
+	drm_mode_dirtyfb_ioctl -> kfree
+	drm_mode_dirtyfb_ioctl -> drm_framebuffer_unreference
+
+	drm_fb_release -> mutex_lock
+	drm_fb_release -> list_for_each_entry_safe
+	drm_fb_release -> mutex_lock
+	drm_fb_release -> __drm_framebuffer_unregister
+	drm_fb_release -> mutex_unlock
+	drm_fb_release -> list_del_init
+	drm_fb_release -> drm_framebuffer_remove
+	drm_fb_release -> mutex_unlock
+
+	drm_property_create -> kzalloc
+	drm_property_create -> kzalloc
+	drm_property_create -> drm_mode_object_get
+	drm_property_create -> INIT_LIST_HEAD
+	drm_property_create -> strncpy
+	drm_property_create -> list_add_tail
+	drm_property_create -> kfree
+	drm_property_create -> kfree
+
+	drm_property_create_enum -> drm_property_create
+	drm_property_create_enum -> drm_property_add_enum
+	drm_property_create_enum -> drm_property_destroy
+
+	drm_property_create_bitmask -> drm_property_create
+	drm_property_create_bitmask -> drm_property_add_enum
+	drm_property_create_bitmask -> drm_property_destroy
+
+	drm_property_create_range -> drm_property_create
+
+	drm_property_add_enum -> list_empty
+	drm_property_add_enum -> list_for_each_entry
+	drm_property_add_enum -> strncpy
+	drm_property_add_enum -> kzalloc
+	drm_property_add_enum -> strncpy
+	drm_property_add_enum -> list_add_tail
+
+	drm_property_destroy -> list_for_each_entry_safe
+	drm_property_destroy -> list_del
+	drm_property_destroy -> kfree
+	drm_property_destroy -> kfree
+	drm_property_destroy -> drm_mode_object_put
+	drm_property_destroy -> list_del
+	drm_property_destroy -> kfree
+
+	drm_object_attach_property -> WARN
+
+	drm_mode_getproperty_ioctl -> drm_core_check_feature
+	drm_mode_getproperty_ioctl -> drm_modeset_lock_all
+	drm_mode_getproperty_ioctl -> drm_mode_object_find
+	drm_mode_getproperty_ioctl -> obj_to_property
+	drm_mode_getproperty_ioctl -> list_for_each_entry
+	drm_mode_getproperty_ioctl -> list_for_each_entry
+	drm_mode_getproperty_ioctl -> strncpy
+	drm_mode_getproperty_ioctl -> copy_to_user
+	drm_mode_getproperty_ioctl -> list_for_each_entry
+	drm_mode_getproperty_ioctl -> copy_to_user
+	drm_mode_getproperty_ioctl -> copy_to_user
+	drm_mode_getproperty_ioctl -> list_for_each_entry
+	drm_mode_getproperty_ioctl -> put_user
+	drm_mode_getproperty_ioctl -> put_user
+	drm_mode_getproperty_ioctl -> drm_modeset_unlock_all
+
+	drm_property_create_blob -> kzalloc
+	drm_property_create_blob -> drm_mode_object_get
+	drm_property_create_blob -> memcpy
+	drm_property_create_blob -> list_add_tail
+
+	drm_property_destroy_blob -> drm_mode_object_put
+	drm_property_destroy_blob -> list_del
+	drm_property_destroy_blob -> kfree
+
+	drm_mode_getblob_ioctl -> drm_core_check_feature
+	drm_mode_getblob_ioctl -> drm_modeset_lock_all
+	drm_mode_getblob_ioctl -> drm_mode_object_find
+	drm_mode_getblob_ioctl -> obj_to_blob
+	drm_mode_getblob_ioctl -> copy_to_user
+	drm_mode_getblob_ioctl -> drm_modeset_unlock_all
+
+	drm_mode_connector_update_edid_property -> drm_property_destroy_blob
+	drm_mode_connector_update_edid_property -> drm_object_property_set_value
+	drm_mode_connector_update_edid_property -> drm_property_create_blob
+	drm_mode_connector_update_edid_property -> drm_object_property_set_value
+
+	drm_mode_connector_property_set_ioctl -> drm_mode_obj_set_property_ioctl
+
+	drm_mode_connector_set_obj_prop -> "connector->funcs->dpms"
+	"connector->funcs->dpms" [style=filled, fillcolor=blue]
+	drm_mode_connector_set_obj_prop -> "connector->funcs->set_property"
+	"connector->funcs->set_property" [style=filled, fillcolor=blue]
+	drm_mode_connector_set_obj_prop -> drm_object_property_set_value
+
+	drm_mode_crtc_set_obj_prop -> obj_to_crtc
+	drm_mode_crtc_set_obj_prop -> "crtc->funcs->set_property"
+	"crtc->funcs->set_property" [style=filled, fillcolor=blue]
+	drm_mode_crtc_set_obj_prop -> drm_object_property_set_value
+
+	drm_mode_plane_set_obj_prop -> obj_to_plane
+	drm_mode_plane_set_obj_prop -> "plane->funcs->set_property"
+	"plane->funcs->set_property" [style=filled, fillcolor=blue]
+	drm_mode_plane_set_obj_prop -> drm_object_property_set_value
+
+	drm_mode_obj_get_properties_ioctl -> drm_core_check_feature
+	drm_mode_obj_get_properties_ioctl -> drm_modeset_lock_all
+	drm_mode_obj_get_properties_ioctl -> drm_mode_object_find
+	drm_mode_obj_get_properties_ioctl -> put_user
+	drm_mode_obj_get_properties_ioctl -> put_user
+	drm_mode_obj_get_properties_ioctl -> drm_modeset_unlock_all
+
+	drm_mode_obj_set_property_ioctl -> drm_core_check_feature
+	drm_mode_obj_set_property_ioctl -> drm_modeset_lock_all
+	drm_mode_obj_set_property_ioctl -> drm_mode_object_find
+	drm_mode_obj_set_property_ioctl -> drm_mode_object_find
+	drm_mode_obj_set_property_ioctl -> obj_to_property
+	drm_mode_obj_set_property_ioctl -> drm_property_change_is_valid
+	drm_mode_obj_set_property_ioctl -> drm_mode_connector_set_obj_prop
+	drm_mode_obj_set_property_ioctl -> drm_mode_crtc_set_obj_prop
+	drm_mode_obj_set_property_ioctl -> drm_mode_plane_set_obj_prop
+	drm_mode_obj_set_property_ioctl -> drm_modeset_unlock_all
+
+	drm_mode_crtc_set_gamma_size -> kzalloc
+
+	drm_mode_gamma_set_ioctl -> drm_core_check_feature
+	drm_mode_gamma_set_ioctl -> drm_modeset_lock_all
+	drm_mode_gamma_set_ioctl -> obj_to_crtc
+	drm_mode_gamma_set_ioctl -> copy_from_user
+	drm_mode_gamma_set_ioctl -> copy_from_user
+	drm_mode_gamma_set_ioctl -> copy_from_user
+	drm_mode_gamma_set_ioctl -> "crtc->funcs->gamma_set"
+	"crtc->funcs->gamma_set" [style=filled, fillcolor=blue]
+	drm_mode_gamma_set_ioctl -> drm_modeset_unlock_all
+
+	drm_mode_gamma_get_ioctl -> drm_core_check_feature
+	drm_mode_gamma_get_ioctl -> drm_modeset_lock_all
+	drm_mode_gamma_get_ioctl -> drm_mode_object_find
+	drm_mode_gamma_get_ioctl -> obj_to_crtc
+	drm_mode_gamma_get_ioctl -> copy_to_user
+	drm_mode_gamma_get_ioctl -> copy_to_user
+	drm_mode_gamma_get_ioctl -> copy_to_user
+	drm_mode_gamma_get_ioctl -> drm_modeset_unlock_all
+
+	drm_mode_page_flip_ioctl -> drm_mode_object_find
+	drm_mode_page_flip_ioctl -> obj_to_crtc
+	drm_mode_page_flip_ioctl -> mutex_lock
+	drm_mode_page_flip_ioctl -> drm_framebuffer_lookup
+	drm_mode_page_flip_ioctl -> drm_crtc_check_viewport
+	drm_mode_page_flip_ioctl -> DRM_DEBUG_KMS
+	drm_mode_page_flip_ioctl -> spin_lock_irqsave
+	drm_mode_page_flip_ioctl -> spin_unlock_irqrestore
+	drm_mode_page_flip_ioctl -> spin_unlock_irqrestore
+	drm_mode_page_flip_ioctl -> kzalloc
+	drm_mode_page_flip_ioctl -> spin_lock_irqsave
+	drm_mode_page_flip_ioctl -> spin_unlock_irqrestore
+	drm_mode_page_flip_ioctl -> "crtc->funcs->page_flip"
+	"crtc->funcs->page_flip" [style=filled, fillcolor=blue]
+	drm_mode_page_flip_ioctl -> spin_lock_irqsave
+	drm_mode_page_flip_ioctl -> spin_unlock_irqrestore
+	drm_mode_page_flip_ioctl -> WARN_ON
+	drm_mode_page_flip_ioctl -> drm_framebuffer_unreference
+	drm_mode_page_flip_ioctl -> drm_framebuffer_unreference
+	drm_mode_page_flip_ioctl -> mutex_unlock
+
+	drm_mode_config_reset -> list_for_each_entry
+	drm_mode_config_reset -> "crtc->funcs->reset"
+	"crtc->funcs->reset" [style=filled, fillcolor=blue]
+	drm_mode_config_reset -> list_for_each_entry
+	drm_mode_config_reset -> "encoder->funcs->reset"
+	"encoder->funcs->reset" [style=filled, fillcolor=blue]
+	drm_mode_config_reset -> list_for_each_entry
+	drm_mode_config_reset -> "connector->funcs->reset"
+	"connector->funcs->reset" [style=filled, fillcolor=blue]
+
+	drm_mode_create_dumb_ioctl -> PAGE_ALIGN
+	drm_mode_create_dumb_ioctl -> "dev->driver->dumb_create"
+	"dev->driver->dumb_create" [syle=fileed, fillcolor=blue]
+
+	drm_mode_mmap_dumb_ioctl -> "dev->driver->dumb_map_offset"
+	"dev->driver->dumb_map_offset" [style=filled, fillcolor=blue]
+
+	drm_mode_destroy_dumb_ioctl -> "dev->driver->dumb_destroy"
+	"dev->driver->dumb_destroy" [style=filled, fillcolor=blue]
+
+	drm_fb_get_bpp_depth -> DRM_DEBUG_KMS
+
+	drm_format_plane_cpp -> drm_format_num_planes
+	drm_format_plane_cpp -> drm_fb_get_bpp_depth
+
+	drm_mode_config_init -> mutex_init
+	drm_mode_config_init -> mutex_init
+	drm_mode_config_init -> mutex_init
+	drm_mode_config_init -> INIT_LIST_HEAD
+	drm_mode_config_init -> INIT_LIST_HEAD
+	drm_mode_config_init -> INIT_LIST_HEAD
+	drm_mode_config_init -> INIT_LIST_HEAD
+	drm_mode_config_init -> INIT_LIST_HEAD
+	drm_mode_config_init -> INIT_LIST_HEAD
+	drm_mode_config_init -> INIT_LIST_HEAD
+	drm_mode_config_init -> INIT_LIST_HEAD
+	drm_mode_config_init -> idr_init
+	drm_mode_config_init -> drm_modeset_lock_all
+	drm_mode_config_init -> drm_mode_create_standard_connector_properties
+	drm_mode_config_init -> drm_mode_create_standard_plane_properties
+	drm_mode_config_init -> drm_modeset_unlock_all
+
+	drm_mode_config_cleanup -> list_for_each_entry_safe
+	drm_mode_config_cleanup -> "encoder->funcs->destroy"
+	"encoder->funcs->destroy" [style=filled, fillcolor=blue]
+	drm_mode_config_cleanup -> list_for_each_entry_safe
+	drm_mode_config_cleanup -> "bridge->funcs->destroy"
+	"bridge->funcs->destroy" [style=filled, fillcolor=blue]
+	drm_mode_config_cleanup -> list_for_each_entry_safe
+	drm_mode_config_cleanup -> "connector->funcs->destroy"
+	"connector->funcs->destroy" [style=filled, fillcolor=blue]
+	drm_mode_config_cleanup -> list_for_each_entry_safe
+	drm_mode_config_cleanup -> drm_property_destroy
+	drm_mode_config_cleanup -> list_for_each_entry_safe
+	drm_mode_config_cleanup -> drm_property_destroy_blob
+	drm_mode_config_cleanup -> WARN_ON
+	drm_mode_config_cleanup -> list_for_each_entry_safe
+	drm_mode_config_cleanup -> drm_framebuffer_remove
+	drm_mode_config_cleanup -> list_for_each_entry_safe
+	drm_mode_config_cleanup -> "plane->funcs->destroy"
+	"plane->funcs->destroy" [style=filled, fillcolor=blue]
+	drm_mode_config_cleanup -> list_for_each_entry_safe
+	drm_mode_config_cleanup -> "crtc->funcs->destroy"
+	"crtc->funcs->destroy" [style=filled, fillcolor=blue]
+	drm_mode_config_cleanup -> idr_destroy
+
+# drm_crtc_helper.c
+	drm_helper_move_panel_connectors_to_head -> INIT_LIST_HEAD
+	drm_helper_move_panel_connectors_to_head -> list_for_each_entry_safe
+	drm_helper_move_panel_connectors_to_head -> list_move_tail
+	drm_helper_move_panel_connectors_to_head -> list_splice
+
+	drm_helper_encoder_in_use -> WARN_ON
+	drm_helper_encoder_in_use -> list_for_each_entry
+
+	drm_helper_crtc_in_use -> WARN_ON
+	drm_helper_crtc_in_use -> list_for_each_entry
+	drm_helper_crtc_in_use -> drm_helper_encoder_in_use
+
+	drm_encoder_disable -> "encoder->bridge->funcs->disable"
+	"encoder->bridge->funcs->disable" [style=filled, fillcolor=blue]
+	drm_encoder_disable -> "encoder_funcs->disable"
+	"encoder_funcs->disable" [style=filled, fillcolor=blue]
+	drm_encoder_disable -> "encoder_funcs->dpms"
+	"encoder_funcs->dpms" [style=filled, fillcolor=blue]
+	drm_encoder_disable -> "encoder->bridge->funcs->post_disable"
+	"encoder->bridge->funcs->post_disable" [style=filled, fillcolor=blue]
+
+	__drm_helper_disable_unused_functions -> drm_warn_on_modeset_not_all_locked
+	__drm_helper_disable_unused_functions -> list_for_each_entry
+	__drm_helper_disable_unused_functions -> list_for_each_entry
+	__drm_helper_disable_unused_functions -> drm_encoder_disable
+	__drm_helper_disable_unused_functions -> list_for_each_entry
+	__drm_helper_disable_unused_functions -> drm_helper_crtc_in_use
+	__drm_helper_disable_unused_functions -> "crtc_funcs->disable"
+	"crtc_funcs->disable" [style=filled, fillcolor=blue]
+	__drm_helper_disable_unused_functions -> "crtc_funcs->dpms"
+	"crtc_funcs->dpms" [style=filled, fillcolor=blue]
+
+	drm_crtc_prepare_encoders -> list_for_each_entry
+	drm_crtc_prepare_encoders -> drm_encoder_disable
+	drm_crtc_prepare_encoders -> "encoder_funcs->get_crtc"
+	"encoder_funcs->get_crtc" [style=filled, fillcolor=blue]
+	drm_crtc_prepare_encoders -> drm_encoder_disable
+
+	drm_crtc_helper_set_mode -> drm_warn_on_modeset_not_all_locked
+	drm_crtc_helper_set_mode -> drm_helper_crtc_in_use
+	drm_crtc_helper_set_mode -> drm_mode_duplicate
+	drm_crtc_helper_set_mode -> list_for_each_entry
+	drm_crtc_helper_set_mode -> "encoder->bridge->funcs->mode_fixup"
+	"encoder->bridge->funcs->mode_fixup" [style=filled, fillcolor=blue]
+	drm_crtc_helper_set_mode -> DRM_DEBUG_KMS
+	drm_crtc_helper_set_mode -> "encoder_funcs->mode_fixup"
+	"encoder_funcs->mode_fixup" [style=filled, fillcolor=blue]
+	drm_crtc_helper_set_mode -> "crtc_funcs->mode_fixup"
+	"crtc_funcs->mode_fixup" [style=filled, fillcolor=blue]
+	drm_crtc_helper_set_mode -> list_for_each_entry
+	drm_crtc_helper_set_mode -> "encoder->bridge->funcs->disable"
+	"encoder->bridge->funcs->disable" [style=filled, fillcolor=blue]
+	drm_crtc_helper_set_mode -> "encoder_funcs->prepare"
+	"encoder_funcs->prepare" [style=filled, fillcolor=blue]
+	drm_crtc_helper_set_mode -> "encoder->bridge->funcs->post_disable"
+	"encoder->bridge->funcs->post_disable" [style=filled, fillcolor=blue]
+	drm_crtc_helper_set_mode -> drm_crtc_prepare_encoders
+	drm_crtc_helper_set_mode -> "crtc_funcs->prepare"
+	"crtc_funcs->prepare" [style=filled, fillcolor=blue]
+	drm_crtc_helper_set_mode -> "crtc_funcs->mode_set"
+	"crtc_funcs->mode_set" [style=filled, fillcolor=blue]
+	drm_crtc_helper_set_mode -> list_for_each_entry
+	drm_crtc_helper_set_mode -> DRM_DEBUG_KMS
+	drm_crtc_helper_set_mode -> "encoder_funcs->mode_set"
+	"encoder_funcs->mode_set" [style=filled, fillcolor=blue]
+	drm_crtc_helper_set_mode -> "encoder->bridge->funcs->mode_set"
+	"encoder->bridge->funcs->mode_set" [style=filled, fillcolor=blue]
+	drm_crtc_helper_set_mode -> "crtc_funcs->commit"
+	"crtc_funcs->commit" [style=filled, fillcolor=blue]
+	drm_crtc_helper_set_mode -> list_for_each_entry
+	drm_crtc_helper_set_mode -> "encoder->bridge->funcs->pre_enable"
+	"encoder->bridge->funcs->pre_enable" [style=filled, fillcolor=blue]
+	drm_crtc_helper_set_mode -> "encoder_funcs->commit"
+	"encoder_funcs->commit" [style=filled, fillcolor=blue]
+	drm_crtc_helper_set_mode -> "encoder->bridge->funcs->enable"
+	"encoder->bridge->funcs->enable" [style=filled, fillcolor=blue]
+	drm_crtc_helper_set_mode -> drm_calc_timestamping_constants
+	drm_crtc_helper_set_mode -> drm_mode_destroy
+
+	drm_crtc_helper_disable -> list_for_each_entry
+	drm_crtc_helper_disable -> list_for_each_entry
+	drm_crtc_helper_disable -> __drm_helper_disable_unused_functions
+
+	drm_crtc_helper_set_config -> DRM_DEBUG_KMS
+	drm_crtc_helper_set_config -> BUG_ON
+	drm_crtc_helper_set_config -> drm_crtc_helper_disable
+	drm_crtc_helper_set_config -> drm_warn_on_modeset_not_all_locked
+	drm_crtc_helper_set_config -> kzalloc
+	drm_crtc_helper_set_config -> kzalloc
+	drm_crtc_helper_set_config -> kfree
+	drm_crtc_helper_set_config -> list_for_each_entry
+	drm_crtc_helper_set_config -> list_for_each_entry
+	drm_crtc_helper_set_config -> drm_mode_debug_printmodeline
+	drm_crtc_helper_set_config -> drm_mode_debug_printmodeline
+	drm_crtc_helper_set_config -> list_for_each_entry
+	drm_crtc_helper_set_config -> "connector_funcs->best_encoder"
+	"connector_funcs->best_encoder" [style=filled, fillcolor=blue]
+	drm_crtc_helper_set_config -> list_for_each_entry
+	drm_crtc_helper_set_config -> drm_encoder_crtc_ok
+	drm_crtc_helper_set_config -> drm_helper_crtc_in_use
+	drm_crtc_helper_set_config -> drm_mode_debug_printmodeline
+	drm_crtc_helper_set_config -> drm_crtc_helper_set_mode
+	drm_crtc_helper_set_config -> DRM_ERROR
+	drm_crtc_helper_set_config -> drm_get_connector_name
+	drm_crtc_helper_set_config -> "set->connectors[i]->funcs->dpms"
+	"set->connectors[i]->funcs->dpms" [style=filled, fillcolor=blue]
+	drm_crtc_helper_set_config -> __drm_helper_disable_unused_functions
+	drm_crtc_helper_set_config -> "crtc_funcs->mode_set_base"
+	"crtc_funcs->mode_set_base" [style=filled, fillcolor=blue]
+	drm_crtc_helper_set_config -> kfree
+	drm_crtc_helper_set_config -> kfree
+	drm_crtc_helper_set_config -> list_for_each_entry
+	drm_crtc_helper_set_config -> list_for_each_entry
+	drm_crtc_helper_set_config -> drm_crtc_helper_set_mode
+	drm_crtc_helper_set_config -> kfree
+	drm_crtc_helper_set_config -> kfree
+
+	drm_helper_choose_encoder_dpms -> list_for_each_entry
+
+	drm_helper_encoder_dpms -> "bridge->funcs->pre_enable"
+	"bridge->funcs->pre_enable" [style=filled, fillcolor=blue]
+	drm_helper_encoder_dpms -> "bridge->funcs->disable"
+	"bridge->funcs->disable" [style=filled, fillcolor=blue]
+	drm_helper_encoder_dpms -> "encoder_funcs->dpms"
+	"encoder_funcs->dpms" [style=filled, fillcolor=blue]
+	drm_helper_encoder_dpms -> "bridge->funcs->enable"
+	"bridge->funcs->enable" [style=filled, fillcolor=blue]
+	drm_helper_encoder_dpms -> "bridge->funcs->post_disable"
+	"bridge->funcs->post_disable" [style=filled, fillcolor=blue]
+
+	drm_helper_choose_crtc_dpms -> list_for_each_entry
+
+	drm_helper_connector_dpms -> drm_helper_choose_encoder_dpms
+	drm_helper_connector_dpms -> "crtc_funcs->dpms"
+	"crtc_funcs->dpms" [style=filled, fillcolor=blue]
+	drm_helper_connector_dpms -> drm_helper_choose_crtc_dpms
+	drm_helper_connector_dpms -> drm_helper_encoder_dpms
+	drm_helper_connector_dpms -> drm_helper_encoder_dpms
+	drm_helper_connector_dpms -> "crtc_funcs->dpms"
+	"crtc_funcs->dpms" [style=filled, fillcolor=blue]
+	drm_helper_connector_dpms -> drm_helper_choose_crtc_dpms
+
+	drm_helper_mode_fill_fb_struct -> drm_fb_get_bpp_depth
+
+	drm_helper_resume_force_mode -> drm_modeset_lock_all
+	drm_helper_resume_force_mode -> list_for_each_entry
+	drm_helper_resume_force_mode -> drm_crtc_helper_set_mode
+	drm_helper_resume_force_mode -> DRM_ERROR
+	drm_helper_resume_force_mode -> drm_helper_choose_crtc_dpms
+	drm_helper_resume_force_mode -> list_for_each_entry
+	drm_helper_resume_force_mode -> drm_helper_choose_encoder_dpms
+	drm_helper_resume_force_mode -> drm_helper_encoder_dpms
+	drm_helper_resume_force_mode -> "crtc_funcs->dpms"
+	"crtc_funcs->dpms" [style=filled, fillcolor=blue]
+	drm_helper_resume_force_mode -> drm_helper_choose_crtc_dpms
+	drm_helper_resume_force_mode -> __drm_helper_disable_unused_functions
+	drm_helper_resume_force_mode -> drm_modeset_unlock_all
+
+# drm_debugfs.c
+	drm_debugfs_open -> single_open
+
+	drm_debugfs_create_files -> kmalloc
+	drm_debugfs_create_files -> debugfs_create_file
+	drm_debugfs_create_files -> DRM_ERROR
+	drm_debugfs_create_files -> kfree
+	drm_debugfs_create_files -> mutex_lock
+	drm_debugfs_create_files -> list_add
+	drm_debugfs_create_files -> mutex_unlock
+	drm_debugfs_create_files -> drm_debugfs_remove_files
+
+	drm_debugfs_init -> INIT_LIST_HEAD
+	drm_debugfs_init -> mutex_init
+	drm_debugfs_init -> sprintf
+	drm_debugfs_init -> debugfs_create_dir
+	drm_debugfs_init -> DRM_ERROR
+	drm_debugfs_init -> drm_debugfs_create_files
+	drm_debugfs_init -> debugfs_remove
+	drm_debugfs_init -> "dev->driver->debugfs_init"
+	"dev->driver->debugfs_init" [style=filled, fillcolor=blue]
+
+	drm_debugfs_remove_files -> mutex_lock
+	drm_debugfs_remove_files -> list_for_each_safe
+	drm_debugfs_remove_files -> list_entry
+	drm_debugfs_remove_files -> debugfs_remove
+	drm_debugfs_remove_files -> list_del
+	drm_debugfs_remove_files -> kfree
+	drm_debugfs_remove_files -> mutex_unlock
+
+	drm_debugfs_cleanup -> "dev->driver->debugfs_cleanup"
+	"dev->driver->debugfs_cleanup" [style=filled, fillcolor=blue]
+	drm_debugfs_cleanup -> debugfs_remove
+
+# drm_dma.c
+	drm_legacy_dma_setup -> drm_core_check_feature
+	drm_legacy_dma_setup -> drm_core_check_feature
+	drm_legacy_dma_setup -> atomic_set
+	drm_legacy_dma_setup -> kzalloc
+	drm_legacy_dma_setup -> memset
+
+	drm_legacy_dma_takedown -> drm_core_check_feature
+	drm_legacy_dma_takedown -> drm_core_check_feature
+	drm_legacy_dma_takedown -> DRM_DEBUG
+	drm_legacy_dma_takedown -> drm_pci_free
+	drm_legacy_dma_takedown -> kfree
+	drm_legacy_dma_takedown -> kfree
+	drm_legacy_dma_takedown -> kfree
+	drm_legacy_dma_takedown -> kfree
+	drm_legacy_dma_takedown -> kfree
+	drm_legacy_dma_takedown -> kfree
+
+	drm_core_reclaim_buffers -> drm_free_buffer
+
+# drm_dp_helper.c
+	# Omitted
+
+# drm_drv.c
+	DRM_CORE_IOCTL_COUNT -> ARRAY_SIZE
+
+	drm_core_init -> drm_global_init
+	drm_core_init -> drm_connector_ida_init
+	drm_core_init -> idr_init
+	drm_core_init -> register_chrdev
+	drm_core_init -> drm_sysfs_create
+	drm_core_init -> IS_ERR
+	drm_core_init -> printk
+	drm_core_init -> PTR_ERR
+	drm_core_init -> debugfs_create_dir
+	drm_core_init -> DRM_ERROR
+	drm_core_init -> DRM_INFO
+	drm_core_init -> drm_sysfs_destroy
+	drm_core_init -> unregister_chrdev
+	drm_core_init -> idr_destroy
+
+	drm_core_exit -> debugfs_remove
+	drm_core_exit -> drm_sysfs_destroy
+	drm_core_exit -> unregister_chrdev
+	drm_core_exit -> drm_connector_ida_destroy
+	drm_core_exit -> idr_destroy
+
+	drm_copy_field -> strlen
+	drm_copy_field -> strlen
+	drm_copy_field -> copy_to_user
+
+	drm_version -> drm_copy_field
+	drm_version -> drm_copy_field
+	drm_version -> drm_copy_field
+
+	drm_ioctl_permit -> unlikely
+	drm_ioctl_permit -> capable
+	drm_ioctl_permit -> unlikely
+	drm_ioctl_permit -> drm_is_render_client
+	drm_ioctl_permit -> unlikely
+	drm_ioctl_permit -> drm_is_control_client
+	drm_ioctl_permit -> unlikely
+	drm_ioctl_permit -> drm_is_control_client
+	drm_ioctl_permit -> unlikely
+	drm_ioctl_permit -> drm_is_render_client
+
+	drm_ioctl -> drm_device_is_unplugged
+	drm_ioctl -> _IOC_SIZE
+	drm_ioctl -> _IOC_SIZE
+	drm_ioctl -> _IOC_SIZE
+	drm_ioctl -> _IOC_SIZE
+	drm_ioctl -> _IOC_SIZE
+	drm_ioctl -> _IOC_SIZE
+	drm_ioctl -> DRM_DEBUG
+	drm_ioctl -> task_pid_nr
+	drm_ioctl -> old_encode_dev
+	drm_ioctl -> unlikely
+	drm_ioctl -> drm_ioctl_permit
+	drm_ioctl -> unlikely
+	drm_ioctl -> kmalloc
+	drm_ioctl -> memset
+	drm_ioctl -> memset
+	drm_ioctl -> func
+	drm_ioctl -> mutex_lock
+	drm_ioctl -> func
+	drm_ioctl -> mutex_unlock
+	drm_ioctl -> copy_to_user
+	drm_ioctl -> task_pid_nr
+	drm_ioctl -> old_encode_dev
+	drm_ioctl -> kfree
+
+	drm_edid_block_valid -> WARN_ON
+	drm_edid_block_valid -> drm_edid_header_is_valid
+	drm_edid_block_valid -> DRM_DEBUG
+	drm_edid_block_valid -> memcpy
+	drm_edid_block_valid -> DRM_ERROR
+	drm_edid_block_valid -> printk
+	drm_edid_block_valid -> print_hex_dump
+
+	drm_edid_is_valid -> drm_edid_block_valid
+
+	drm_do_probe_ddc_edid -> i2c_transfer
+	drm_do_probe_ddc_edid -> DRM_DEBUG_KMS
+
+	drm_edid_is_zero -> memchr_inv
+
+	drm_do_get_edid -> kmalloc
+	drm_do_get_edid -> drm_do_probe_ddc_edid
+	drm_do_get_edid -> drm_edid_block_valid
+	drm_do_get_edid -> drm_edid_is_zero
+	drm_do_get_edid -> krealloc
+	drm_do_get_edid -> drm_do_probe_ddc_edid
+	drm_do_get_edid -> drm_edid_block_valid
+	drm_do_get_edid -> dev_warn
+	drm_do_get_edid -> drm_get_connector_name
+	drm_do_get_edid -> krealloc
+	drm_do_get_edid -> dev_warn
+	drm_do_get_edid -> drm_get_connector_name
+	drm_do_get_edid -> kfree
+
+	drm_probe_ddc -> drm_do_probe_ddc_edid
+
+	drm_get_edid -> drm_probe_ddc
+	drm_get_edid -> drm_do_get_edid
+
+	drm_edid_duplicate -> kmemdup
+
+	edid_vendor -> strncmp
+
+	edid_get_quirks -> ARRAY_SIZE
+	edid_get_quirks -> edid_vendor
+	edid_get_quirks -> EDID_PRODUCT_ID
+
+	MODE_REFRESH_DIFF -> abs
+
+	edid_fixup_preferred -> list_empty
+	edid_fixup_preferred -> list_first_entry
+	edid_fixup_preferred -> list_for_each_entry_safe
+	edid_fixup_preferred -> MODE_SIZE
+	edid_fixup_preferred -> MODE_SIZE
+	edid_fixup_preferred -> drm_mode_vrefresh
+	edid_fixup_preferred -> drm_mode_vrefresh
+	edid_fixup_preferred -> MODE_SIZE
+	edid_fixup_preferred -> MODE_SIZE
+	edid_fixup_preferred -> MODE_REFRESH_DIFF
+	edid_fixup_preferred -> MODE_REFRESH_DIFF
+
+	drm_mode_find_dmt -> ARRAY_SIZE
+	drm_mode_find_dmt -> drm_mode_duplicate
+
+	cea_for_each_detailed_block -> cb
+
+	vtb_for_each_detailed_block -> cb
+
+	drm_for_each_detailed_block -> cb
+	drm_for_each_detailed_block -> cea_for_each_detailed_block
+	drm_for_each_detailed_block -> vtb_for_each_detailed_block
+
+	drm_monitor_supports_rb -> drm_for_each_detailed_block
+
+	drm_gtf2_hbreak -> drm_for_each_detailed_block
+
+	drm_gtf2_2c -> drm_for_each_detailed_block
+
+	drm_gtf2_m -> drm_for_each_detailed_block
+
+	drm_gtf2_k -> drm_for_each_detailed_block
+
+	drm_gtf2_2j -> drm_for_each_detailed_block
+
+	standard_timing_level -> drm_gtf2_hbreak
+
+	drm_mode_std -> standard_timing_level
+	drm_mode_std -> bad_std_timing
+	drm_mode_std -> list_for_each_entry
+	drm_mode_std -> drm_mode_vrefresh
+	drm_mode_std -> drm_cvt_mode
+	drm_mode_std -> drm_monitor_supports_rb
+	drm_mode_std -> drm_mode_find_dmt
+	drm_mode_std -> drm_mode_find_dmt
+	drm_mode_std -> drm_gtf_mode
+	drm_mode_std -> drm_gtf_mode
+	drm_mode_std -> drm_mode_hsync
+	drm_mode_std -> drm_mode_destroy
+	drm_mode_std -> drm_gtf_mode_complex
+	drm_mode_std -> drm_cvt_mode
+
+	drm_mode_do_interlace_quirk -> ARRAY_SIZE
+
+	drm_mode_detailed -> DRM_DEBUG_KMS
+	drm_mode_detailed -> drm_cvt_mode
+	drm_mode_detailed -> drm_mode_create
+	drm_mode_detailed -> cpu_to_le16
+	drm_mode_detailed -> drm_mode_do_interlace_quirk
+	drm_mode_detailed -> drm_mode_vrefresh
+	drm_mode_detailed -> drm_mode_set_name
+
+	mode_in_hsync_range -> drm_mode_hsync
+
+	mode_in_vsync_range -> drm_mode_vrefresh
+
+	mode_in_range -> mode_in_hsync_range
+	mode_in_range -> mode_in_vsync_range
+	mode_in_range -> range_pixel_clock
+	mode_in_range -> mode_is_rb
+	mode_in_range -> drm_monitor_supports_rb
+
+	valid_inferred_mode -> list_for_each_entry
+	valid_inferred_mode -> drm_mode_vrefresh
+	valid_inferred_mode -> drm_mode_vrefresh
+
+	drm_dmt_modes_for_range -> ARRAY_SIZE
+	drm_dmt_modes_for_range -> mode_in_range
+	drm_dmt_modes_for_range -> valid_inferred_mode
+	drm_dmt_modes_for_range -> drm_mode_duplicate
+	drm_dmt_modes_for_range -> drm_mode_probed_add
+
+	fixup_mode_1366x768 -> drm_mode_set_name
+
+	drm_gtf_modes_for_range -> ARRAY_SIZE
+	drm_gtf_modes_for_range -> drm_gtf_mode
+	drm_gtf_modes_for_range -> fixup_mode_1366x768
+	drm_gtf_modes_for_range -> mode_in_range
+	drm_gtf_modes_for_range -> valid_inferred_mode
+	drm_gtf_modes_for_range -> drm_mode_destroy
+	drm_gtf_modes_for_range -> drm_mode_probed_add
+
+	drm_cvt_modes_for_range -> drm_monitor_supports_rb
+	drm_cvt_modes_for_range -> ARRAY_SIZE
+	drm_cvt_modes_for_range -> drm_cvt_mode
+	drm_cvt_modes_for_range -> fixup_mode_1366x768
+	drm_cvt_modes_for_range -> mode_in_range
+	drm_cvt_modes_for_range -> valid_inferred_mode
+	drm_cvt_modes_for_range -> drm_mode_destroy
+	drm_cvt_modes_for_range -> drm_mode_probed_add
+
+	do_inferred_modes -> drm_dmt_modes_for_range
+	do_inferred_modes -> version_greater
+	do_inferred_modes -> drm_gtf_modes_for_range
+	do_inferred_modes -> version_greater
+	do_inferred_modes -> drm_cvt_modes_for_range
+
+	add_inferred_modes -> version_greater
+	add_inferred_modes -> drm_for_each_detailed_block
+
+	drm_est3_modes -> ARRAY_SIZE
+	drm_est3_modes -> drm_mode_find_dmt
+	drm_est3_modes -> drm_mode_probed_add
+
+	do_established_modes -> drm_est3_modes
+
+	add_established_modes -> drm_mode_duplicate
+	add_established_modes -> drm_mode_probed_add
+	add_established_modes -> version_greater
+	add_established_modes -> drm_for_each_detailed_block
+
+	do_standard_modes -> drm_mode_std
+	do_standard_modes -> drm_mode_probed_add
+
+	add_standard_modes -> drm_mode_std
+	add_standard_modes -> drm_mode_probed_add
+	add_standard_modes -> version_greater
+	add_standard_modes -> drm_for_each_detailed_block
+
+	drm_cvt_modes -> uninitialized_var
+	drm_cvt_modes -> memcmp
+	drm_cvt_modes -> drm_cvt_mode
+	drm_cvt_modes -> drm_mode_probed_add
+
+	do_cvt_mode -> drm_cvt_modes
+
+	add_cvt_modes -> version_greater
+	add_cvt_modes -> drm_for_each_detailed_block
+
+	do_detailed_mode -> drm_mode_detailed
+	do_detailed_mode -> drm_mode_probed_add
+
+	add_detailed_modes -> drm_for_each_detailed_block
+
+	drm_match_cea_mode -> ARRAY_SIZE
+	drm_match_cea_mode -> cea_mode_alternate_clock
+	drm_match_cea_mode -> KHZ2PICOS
+	drm_match_cea_mode -> KHZ2PICOS
+	drm_match_cea_mode -> KHZ2PICOS
+	drm_match_cea_mode -> KHZ2PICOS
+	drm_match_cea_mode -> drm_mode_equal_no_clocks_no_stereo
+
+	hdmi_mode_alternate_clock -> cea_mode_alternate_clock
+
+	drm_match_hdmi_mode -> ARRAY_SIZE
+	drm_match_hdmi_mode -> hdmi_mode_alternate_clock
+	drm_match_hdmi_mode -> KHZ2PICOS
+	drm_match_hdmi_mode -> KHZ2PICOS
+	drm_match_hdmi_mode -> KHZ2PICOS
+	drm_match_hdmi_mode -> KHZ2PICOS
+	drm_match_hdmi_mode -> drm_mode_equal_no_clocks_no_stereo
+
+	add_alternate_cea_modes -> LIST_HEAD
+	add_alternate_cea_modes -> list_for_each_entry
+	add_alternate_cea_modes -> drm_match_cea_mode
+	add_alternate_cea_modes -> ARRAY_SIZE
+	add_alternate_cea_modes -> cea_mode_alternate_clock
+	add_alternate_cea_modes -> drm_match_hdmi_mode
+	add_alternate_cea_modes -> ARRAY_SIZE
+	add_alternate_cea_modes -> hdmi_mode_alternate_clock
+	add_alternate_cea_modes -> drm_mode_duplicate
+	add_alternate_cea_modes -> list_add_tail
+	add_alternate_cea_modes -> list_for_each_entry_safe
+	add_alternate_cea_modes -> list_del
+	add_alternate_cea_modes -> drm_mode_probed_add
+
+	drm_display_mode_from_vic_index -> ARRAY_SIZE
+	drm_display_mode_from_vic_index -> drm_mode_duplicate
+
+	do_cea_modes -> drm_display_mode_from_vic_index
+	do_cea_modes -> drm_mode_probed_add
+
+	stereo_match_mandatory -> drm_mode_vrefresh
+
+	add_hdmi_mandatory_stereo_modes -> INIT_LIST_HEAD
+	add_hdmi_mandatory_stereo_modes -> list_for_each_entry
+	add_hdmi_mandatory_stereo_modes -> ARRAY_SIZE
+	add_hdmi_mandatory_stereo_modes -> stereo_match_mandatory
+	add_hdmi_mandatory_stereo_modes -> drm_mode_duplicate
+	add_hdmi_mandatory_stereo_modes -> list_add_tail
+	add_hdmi_mandatory_stereo_modes -> list_add_tail
+
+	add_hdmi_mode -> ARRAY_SIZE
+	add_hdmi_mode -> DRM_ERROR
+	add_hdmi_mode -> drm_mode_duplicate
+	add_hdmi_mode -> drm_mode_probed_add
+
+	add_3d_struct_modes -> drm_display_mode_from_vic_index
+	add_3d_struct_modes -> drm_mode_probed_add
+	add_3d_struct_modes -> drm_display_mode_from_vic_index
+	add_3d_struct_modes -> drm_mode_probed_add
+	add_3d_struct_modes -> drm_display_mode_from_vic_index
+	add_3d_struct_modes -> drm_mode_probed_add
+
+	do_hdmi_vsdb_modes -> add_hdmi_mandatory_stereo_modes
+	do_hdmi_vsdb_modes -> add_hdmi_mode
+	do_hdmi_vsdb_modes -> add_3d_struct_modes
+	do_hdmi_vsdb_modes -> drm_display_mode_from_vic_index
+	do_hdmi_vsdb_modes -> drm_mode_probed_add
+
+	cea_db_is_hdmi_vsdb -> cea_db_tag
+	cea_db_is_hdmi_vsdb -> cea_db_payload_len
+
+	for_each_cea_db -> cea_db_payload_len
+	for_each_cea_db -> cea_db_payload_len
+
+	add_cea_modes -> drm_find_cea_extension
+	add_cea_modes -> cea_revision
+	add_cea_modes -> cea_db_offsets
+	add_cea_modes -> for_each_cea_db
+	add_cea_modes -> cea_db_payload_len
+	add_cea_modes -> cea_db_tag
+	add_cea_modes -> do_cea_modes
+	add_cea_modes -> cea_db_is_hdmi_vsdb
+	add_cea_modes -> do_hdmi_vsdb_modes
+
+	parse_hdmi_vsdb -> parse_hdmi_vsdb
+	parse_hdmi_vsdb -> cea_db_payload_len
+	parse_hdmi_vsdb -> DRM_DEBUG_KMS
+
+	drm_edid_to_eld -> memset
+	drm_edid_to_eld -> drm_find_cea_extension
+	drm_edid_to_eld -> DRM_DEBUG_KMS
+	drm_edid_to_eld -> drm_for_each_detailed_block
+	drm_edid_to_eld -> cea_revision
+	drm_edid_to_eld -> cea_db_offsets
+	drm_edid_to_eld -> for_each_cea_db
+	drm_edid_to_eld -> cea_db_payload_len
+	drm_edid_to_eld -> memcpy
+	drm_edid_to_eld -> cea_db_is_hdmi_vsdb
+	drm_edid_to_eld -> parse_hdmi_vsdb
+
+	drm_edid_to_sad -> drm_find_cea_extension
+	drm_edid_to_sad -> DRM_DEBUG_KMS
+	drm_edid_to_sad -> cea_revision
+	drm_edid_to_sad -> cea_db_offsets
+	drm_edid_to_sad -> for_each_cea_db
+	drm_edid_to_sad -> cea_db_tag
+	drm_edid_to_sad -> cea_db_payload_len
+	drm_edid_to_sad -> kcalloc
+
+	drm_edid_to_speaker_allocation -> drm_find_cea_extension
+	drm_edid_to_speaker_allocation -> DRM_DEBUG_KMS
+	drm_edid_to_speaker_allocation -> cea_revision
+	drm_edid_to_speaker_allocation -> cea_db_offsets
+	drm_edid_to_speaker_allocation -> for_each_cea_db
+	drm_edid_to_speaker_allocation -> cea_db_tag
+	drm_edid_to_speaker_allocation -> kmalloc
+	drm_edid_to_speaker_allocation -> memcpy
+
+	drm_av_sync_delay -> min
+	drm_av_sync_delay -> max
+
+	drm_select_eld -> list_for_each_entry
+
+	drm_detect_hdmi_monitor -> drm_find_cea_extension
+	drm_detect_hdmi_monitor -> cea_db_offsets
+	drm_detect_hdmi_monitor -> for_each_cea_db
+	drm_detect_hdmi_monitor -> cea_db_is_hdmi_vsdb
+
+	drm_detect_monitor_audio -> drm_find_cea_extension
+	drm_detect_monitor_audio -> DRM_DEBUG_KMS
+	drm_detect_monitor_audio -> cea_db_offsets
+	drm_detect_monitor_audio -> for_each_cea_db
+	drm_detect_monitor_audio -> cea_db_tag
+	drm_detect_monitor_audio -> cea_db_payload_len
+
+	drm_rgb_quant_range_selectable -> drm_find_cea_extension
+	drm_rgb_quant_range_selectable -> cea_db_offsets
+	drm_rgb_quant_range_selectable -> for_each_cea_db
+	drm_rgb_quant_range_selectable -> cea_db_tag
+	drm_rgb_quant_range_selectable -> cea_db_payload_len
+
+	drm_add_display_info -> drm_find_cea_extension
+
+	drm_add_edid_modes -> drm_edid_is_valid
+	drm_add_edid_modes -> dev_warn
+	drm_add_edid_modes -> drm_get_connector_name
+	drm_add_edid_modes -> edid_get_quirks
+	drm_add_edid_modes -> add_detailed_modes
+	drm_add_edid_modes -> add_cvt_modes
+	drm_add_edid_modes -> add_standard_modes
+	drm_add_edid_modes -> add_established_modes
+	drm_add_edid_modes -> add_inferred_modes
+	drm_add_edid_modes -> add_cea_modes
+	drm_add_edid_modes -> add_alternate_cea_modes
+	drm_add_edid_modes -> edid_fixup_preferred
+	drm_add_edid_modes -> drm_add_display_info
+
+	drm_add_modes_noedid -> drm_mode_vrefresh
+	drm_add_modes_noedid -> drm_mode_duplicate
+	drm_add_modes_noedid -> drm_mode_probed_add
+
+	drm_set_preferred_mode -> list_for_each_entry
+
+	drm_hdmi_avi_infoframe_from_display_mode -> hdmi_avi_infoframe_init
+	drm_hdmi_avi_infoframe_from_display_mode -> drm_match_cea_mode
+
+	drm_hdmi_vendor_infoframe_from_display_mode -> drm_match_hdmi_mode
+	drm_hdmi_vendor_infoframe_from_display_mode -> hdmi_vendor_infoframe_init
+	drm_hdmi_vendor_infoframe_from_display_mode -> s3d_structure_from_display_mode
+
+# drm_edid_load.c
+	edid_load -> strcmp
+	edid_load -> platform_device_register_simple
+	edid_load -> IS_ERR
+	edid_load -> DRM_ERROR
+	edid_load -> ERR_CAST
+	edid_load -> request_firmware
+	edid_load -> platform_device_unregister
+	edid_load -> ERR_PTR
+	edid_load -> edid_size
+	edid_load -> edid_size
+	edid_load -> kmemdup
+	edid_load -> drm_edid_block_valid
+	edid_load -> kfree
+	edid_load -> memcpy
+	edid_load -> krealloc
+	edid_load -> release_firmware
+
+	drm_load_edid_firmware -> drm_get_connector_name
+	drm_load_edid_firmware -> strchr
+	drm_load_edid_firmware -> strncmp
+	drm_load_edid_firmware -> strlen
+	drm_load_edid_firmware -> edid_load
+	drm_load_edid_firmware -> IS_ERR_OR_NULL
+	drm_load_edid_firmware -> drm_mode_connector_update_edid_property
+	drm_load_edid_firmware -> drm_add_edid_modes
+	drm_load_edid_firmware -> kfree
+
+# drm_encoder_slave.c
+	drm_i2c_encoder_init -> request_module
+	drm_i2c_encoder_init -> i2c_new_device
+	drm_i2c_encoder_init -> try_module_get
+	drm_i2c_encoder_init -> to_drm_i2c_encoder_driver
+	drm_i2c_encoder_init -> "encoder_drv->encoder_init"
+	"encoder_drv->encoder_init" [style=filled, fillcolor=blue]
+	drm_i2c_encoder_init -> "encoder->slave_funcs->set_config"
+	"encoder->slave_funcs->set_config" [style=filled, fillcolor=blue]
+	drm_i2c_encoder_init -> i2c_unregister_device
+	drm_i2c_encoder_init -> module_put
+
+	drm_i2c_encoder_destroy -> to_encoder_slave
+	drm_i2c_encoder_destroy -> drm_i2c_encoder_get_client
+	drm_i2c_encoder_destroy -> i2c_unregister_device
+	drm_i2c_encoder_destroy -> module_put
+
+	get_slave_funcs -> "to_encoder_slave(enc)->slave_funcs"
+	"to_encoder_slave(enc)->slave_funcs" [style=filled, fillcolor=blue]
+
+	drm_i2c_encoder_dpms -> "get_slave_funcs(encoder)->dpms"
+	"get_slave_funcs(encoder)->dpms" [style=filled, fillcolor=blue]
+
+	drm_i2c_encoder_mode_fixup -> "get_slave_funcs(encoder)->mode_fixup"
+
+	drm_i2c_encoder_prepare -> drm_i2c_encoder_dpms
+
+	drm_i2c_encoder_commit -> drm_i2c_encoder_dpms
+
+	drm_i2c_encoder_mode_set -> "get_slave_funcs(encoder)->mode_set"
+	"get_slave_funcs(encoder)->mode_set" [style=filled, fillcolor=blue]
+
+	drm_i2c_encoder_detect -> "get_slave_funcs(encoder)->detect"
+	"get_slave_funcs(encoder)->detect" [style=filled, fillcolor=blue]
+
+	drm_i2c_encoder_save -> "get_slave_funcs(encoder)->save"
+	"get_slave_funcs(encoder)->save" [style=filled, fillcolor=blue]
+
+	drm_i2c_encoder_restore -> "get_slave_funcs(encoder)->restore"
+	"get_slave_funcs(encoder)->restore" [style=filled, fillcolor=blue]
+
+# drm_fb_cma_helper.c
+	to_fbdev_cma -> container_of
+
+	to_fb_cma -> container_of
+
+	drm_fb_cma_destroy -> to_fb_cma
+	drm_fb_cma_destroy -> drm_gem_object_unreference_unlocked
+	drm_fb_cma_destroy -> drm_framebuffer_cleanup
+	drm_fb_cma_destroy -> kfree
+
+	drm_fb_cma_create_handle -> to_fb_cma
+	drm_fb_cma_create_handle -> drm_gem_handle_create
+
+	drm_fb_cma_alloc -> kzalloc
+	drm_fb_cma_alloc -> ERR_PTR
+	drm_fb_cma_alloc -> drm_helper_mode_fill_fb_struct
+	drm_fb_cma_alloc -> drm_framebuffer_init
+	drm_fb_cma_alloc -> dev_err
+	drm_fb_cma_alloc -> kfree
+	drm_fb_cma_alloc -> ERR_PTR
+
+	drm_fb_cma_create -> drm_format_horz_chroma_subsampling
+	drm_fb_cma_create -> drm_format_vert_chroma_subsampling
+	drm_fb_cma_create -> drm_format_num_planes
+	drm_fb_cma_create -> drm_gem_object_lookup
+	drm_fb_cma_create -> dev_err
+	drm_fb_cma_create -> drm_format_plane_cpp
+	drm_fb_cma_create -> drm_gem_object_unreference_unlocked
+	drm_fb_cma_create -> to_drm_gem_cma_obj
+	drm_fb_cma_create -> drm_fb_cma_alloc
+	drm_fb_cma_create -> PTR_ERR
+	drm_fb_cma_create -> drm_gem_object_unreference_unlocked
+	drm_fb_cma_create -> ERR_PTR
+
+	drm_fb_cma_get_gem_obj -> to_fb_cma
+
+	drm_fb_cma_describe -> to_fb_cma
+	drm_fb_cma_describe -> drm_format_num_planes
+	drm_fb_cma_describe -> seq_printf
+	drm_fb_cma_describe -> seq_printf
+	drm_fb_cma_describe -> drm_gem_cma_describe
+
+	drm_fb_cma_debugfs_show -> mutex_lock_interruptible
+	drm_fb_cma_debugfs_show -> mutex_lock_interruptible
+	drm_fb_cma_debugfs_show -> mutex_unlock
+	drm_fb_cma_debugfs_show -> list_for_each_entry
+	drm_fb_cma_debugfs_show -> drm_fb_cma_describe
+	drm_fb_cma_debugfs_show -> mutex_unlock
+	drm_fb_cma_debugfs_show -> mutex_unlock
+
+	drm_fbdev_cma_create -> to_fbdev_cma
+	drm_fbdev_cma_create -> DRM_DEBUG_KMS
+	drm_fbdev_cma_create -> DIV_ROUND_UP
+	drm_fbdev_cma_create -> drm_mode_legacy_fb_format
+	drm_fbdev_cma_create -> drm_gem_cma_create
+	drm_fbdev_cma_create -> IS_ERR
+	drm_fbdev_cma_create -> framebuffer_alloc
+	drm_fbdev_cma_create -> dev_err
+	drm_fbdev_cma_create -> drm_fb_cma_alloc
+	drm_fbdev_cma_create -> IS_ERR
+	drm_fbdev_cma_create -> dev_err
+	drm_fbdev_cma_create -> PTR_ERR
+	drm_fbdev_cma_create -> fb_alloc_cmap
+	drm_fbdev_cma_create -> dev_err
+	drm_fbdev_cma_create -> drm_fb_helper_fill_fix
+	drm_fbdev_cma_create -> drm_fb_helper_fill_var
+	drm_fbdev_cma_create -> drm_framebuffer_unregister_private
+	drm_fbdev_cma_create -> drm_fb_cma_destroy
+	drm_fbdev_cma_create -> framebuffer_release
+	drm_fbdev_cma_create -> drm_gem_cma_free_object
+
+	drm_fbdev_cma_init -> kzalloc
+	drm_fbdev_cma_init -> dev_err
+	drm_fbdev_cma_init -> ERR_PTR
+	drm_fbdev_cma_init -> drm_fb_helper_init
+	drm_fbdev_cma_init -> dev_err
+	drm_fbdev_cma_init -> drm_fb_helper_single_add_all_connectors
+	drm_fbdev_cma_init -> dev_err
+	drm_fbdev_cma_init -> drm_helper_disable_unused_functions
+	drm_fbdev_cma_init -> drm_fb_helper_initial_config
+	drm_fbdev_cma_init -> dev_err
+	drm_fbdev_cma_init -> drm_fb_helper_fini
+	drm_fbdev_cma_init -> kfree
+	drm_fbdev_cma_init -> ERR_PTR
+
+	drm_fbdev_cma_fini -> unregister_framebuffer
+	drm_fbdev_cma_fini -> DRM_DEBUG_KMS
+	drm_fbdev_cma_fini -> fb_dealloc_cmap
+	drm_fbdev_cma_fini -> framebuffer_release
+	drm_fbdev_cma_fini -> drm_framebuffer_unregister_private
+	drm_fbdev_cma_fini -> drm_fb_cma_destroy
+	drm_fbdev_cma_fini -> drm_fb_helper_fini
+	drm_fbdev_cma_fini -> kfree
+
+	drm_fbdev_cma_restore_mode -> drm_modeset_lock_all
+	drm_fbdev_cma_restore_mode -> drm_fb_helper_restore_fbdev_mode
+	drm_fbdev_cma_restore_mode -> drm_modeset_unlock_all
+
+	drm_fbdev_cma_hotplug_event -> drm_fb_helper_hotplug_event
+
+# drm_fb_helper.c
+	drm_fb_helper_single_add_all_connectors -> list_for_each_entry
+	drm_fb_helper_single_add_all_connectors -> kzalloc
+	drm_fb_helper_single_add_all_connectors -> kfree
+
+	drm_fb_helper_parse_command_line -> fb_get_options -> drm_get_connector_name
+	drm_fb_helper_parse_command_line -> drm_mode_parse_command_line_for_connector
+	drm_fb_helper_parse_command_line -> DRM_INFO -> drm_get_connector_name
+	drm_fb_helper_parse_command_line -> DRM_DEBUG_KMS -> drm_get_connector_name
+
+	drm_fb_helper_save_lut_atomic -> "helper->funcs->gamma_get"
+	"helper->funcs->gamma_get" [style=filled, fillcolor=blue]
+
+	drm_fb_helper_restore_lut_atomic -> "crtc->funcs->gamma_set"
+	"crtc->funcs->gamma_set" [style=filled, fillcolor=blue]
+
+	drm_fb_helper_debug_enter -> list_empty
+	drm_fb_helper_debug_enter -> list_for_each_entry
+	drm_fb_helper_debug_enter -> drm_fb_helper_save_lut_atomic
+	drm_fb_helper_debug_enter -> "funcs->mode_set_base_atomic"
+	"funcs->mode_set_base_atomic" [style=filled, fillcolor=blue]
+
+	drm_mode_config_fb -> list_for_each_entry
+
+	drm_fb_helper_debug_leave -> drm_mode_config_fb
+	drm_fb_helper_debug_leave -> DRM_ERROR
+	drm_fb_helper_debug_leave -> drm_fb_helper_restore_lut_atomic
+	drm_fb_helper_debug_leave -> "funcs->mode_set_base_atomic"
+	"funcs->mode_set_base_atomic" [style=filled, fillcolor=blue]
+
+	drm_fb_helper_restore_fbdev_mode -> drm_warn_on_modeset_not_all_locked
+	drm_fb_helper_restore_fbdev_mode -> list_for_each_entry
+	drm_fb_helper_restore_fbdev_mode -> "crtc->funcs->cursor_set"
+	"crtc->funcs->cursor_set" [style=filled, fillcolor=blue]
+	drm_fb_helper_restore_fbdev_mode -> drm_mode_set_config_internal
+
+	drm_fb_helper_force_kernel_mode -> list_empty
+	drm_fb_helper_force_kernel_mode -> list_for_each_entry
+	drm_fb_helper_force_kernel_mode -> drm_fb_helper_restore_fbdev_mode
+
+	drm_fb_helper_panic -> pr_err
+	drm_fb_helper_panic -> drm_fb_helper_force_kernel_mode
+
+	drm_fb_helper_is_bound -> list_for_each_entry
+
+	drm_fb_helper_restore_work_fn -> drm_fb_helper_force_kernel_mode
+	drm_fb_helper_restore_work_fn -> DRM_ERROR
+
+	drm_fb_helper_sysrq -> schedule_work
+
+	drm_fb_helper_dpms -> drm_modeset_lock_all
+	drm_fb_helper_dpms -> drm_fb_helper_is_bound
+	drm_fb_helper_dpms -> drm_modeset_unlock_all
+	drm_fb_helper_dpms -> "connector->funcs->dpms"
+	"connector->funcs->dpms" [style=filled, fillcolor=blue]
+	drm_fb_helper_dpms -> drm_object_property_set_value
+	drm_fb_helper_dpms -> drm_modeset_unlock_all
+
+	drm_fb_helper_blank -> drm_fb_helper_dpms
+	drm_fb_helper_blank -> drm_fb_helper_dpms
+	drm_fb_helper_blank -> drm_fb_helper_dpms
+	drm_fb_helper_blank -> drm_fb_helper_dpms
+	drm_fb_helper_blank -> drm_fb_helper_dpms
+
+	drm_fb_helper_crtc_free -> kfree
+	drm_fb_helper_crtc_free -> kfree
+	drm_fb_helper_crtc_free -> kfree
+	drm_fb_helper_crtc_free -> drm_mode_destroy
+	drm_fb_helper_crtc_free -> kfree
+
+	drm_fb_helper_init -> INIT_LIST_HEAD
+	drm_fb_helper_init -> kcalloc
+	drm_fb_helper_init -> kcalloc
+	drm_fb_helper_init -> kfree
+	drm_fb_helper_init -> kcalloc
+	drm_fb_helper_init -> list_for_each_entry
+	drm_fb_helper_init -> drm_fb_helper_crtc_free
+
+	drm_fb_helper_fini -> list_empty
+	drm_fb_helper_fini -> list_del
+	drm_fb_helper_fini -> list_empty
+	drm_fb_helper_fini -> pr_info
+	drm_fb_helper_fini -> atomic_notifier_chain_unregister
+	drm_fb_helper_fini -> unregister_sysrq_key
+	drm_fb_helper_fini -> drm_fb_helper_crtc_free
+
+	setcolreg -> WARN_ON
+	setcolreg -> "fb_helper->funcs->gamma_set"
+	"fb_helper->funcs->gamma_set" [style=filled, fillcolor=blue]
+	setcolreg -> "fb_helper->funcs->gamma_get"
+	"fb_helper->funcs->gamma_get" [style=filled, fillcolor=blue]
+	setcolreg -> "fb_helper->funcs->gamma_set"
+	"fb_helper->funcs->gamma_set" [style=filled, fillcolor=blue]
+	setcolreg -> "fb_helper->funcs->gamma_set"
+	"fb_helper->funcs->gamma_set" [style=filled, fillcolor=blue]
+
+	drm_fb_helper_setcmap -> drm_modeset_lock_all
+	drm_fb_helper_setcmap -> drm_fb_helper_is_bound
+	drm_fb_helper_setcmap -> drm_modeset_unlock_all
+	drm_fb_helper_setcmap -> setcolreg
+	drm_fb_helper_setcmap -> "crtc_funcs->load_lut"
+	"crtc_funcs->load_lut" [style=filled, fillcolor=blue]
+	drm_fb_helper_setcmap -> "drm_modeset_unlock_all"
+	"drm_modeset_unlock_all" [style=filled, fillcolor=blue]
+
+	drm_fb_helper_check_var -> in_dbg_master
+	drm_fb_helper_check_var -> DRM_DEBUG
+
+	drm_fb_helper_set_par -> DRM_ERROR
+	drm_fb_helper_set_par -> drm_fb_helper_restore_fbdev_mode
+	drm_fb_helper_set_par -> drm_modeset_unlock_all
+	drm_fb_helper_set_par -> drm_fb_helper_hotplug_event
+
+	drm_fb_helper_pan_display -> drm_modeset_lock_all
+	drm_fb_helper_pan_display -> drm_fb_helper_is_bound
+	drm_fb_helper_pan_display -> drm_modeset_unlock_all
+	drm_fb_helper_pan_display -> drm_mode_set_config_internal
+	drm_fb_helper_pan_display -> drm_modeset_unlock_all
+
+	drm_fb_helper_single_fb_probe -> memset
+	drm_fb_helper_single_fb_probe -> DRM_INFO
+	drm_fb_helper_single_fb_probe -> "fb_helper->funcs->fb_probe"
+	"fb_helper->funcs->fb_probe" [style=filled, fillcolor=blue]
+	drm_fb_helper_single_fb_probe -> register_framebuffer
+	drm_fb_helper_single_fb_probe -> dev_info
+	drm_fb_helper_single_fb_probe -> list_empty
+	drm_fb_helper_single_fb_probe -> dev_info
+	drm_fb_helper_single_fb_probe -> atomic_notifier_chain_register
+	drm_fb_helper_single_fb_probe -> register_sysrq_key
+	drm_fb_helper_single_fb_probe -> list_add
+
+	drm_fb_helper_probe_connector_modes -> "connector->funcs->fill_modes"
+	"connector->funcs->fill_modes" [style=filled, fillcolor=blue]
+
+	drm_has_preferred_mode -> list_for_each_entry
+
+	drm_pick_cmdline_mode -> drm_mode_create_from_cmdline_mode
+	drm_pick_cmdline_mode -> list_add
+
+	drm_enable_connectors -> drm_connector_enabled
+	drm_enable_connectors -> DRM_DEBUG_KMS
+	drm_enable_connectors -> drm_connector_enabled
+
+
+
+
+
 
 }
