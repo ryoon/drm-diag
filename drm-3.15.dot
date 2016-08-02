@@ -2383,14 +2383,827 @@ digraph drm315 {
 	"dev->driver->gem_open_object" [style=filled, fillcolor=blue]
 	drm_gem_handle_create_tail -> drm_gem_handle_delete
 
-	drm_gem_handle_create -> 
+	drm_gem_handle_create -> mutex_lock
+	drm_gem_handle_create -> drm_gem_handle_create_tail
 
+	drm_gem_free_mmap_offset -> drm_vma_offset_remove
 
+	drm_gem_create_mmap_offset_size -> drm_vma_offset_add
 
+	drm_gem_create_mmap_offset -> drm_gem_create_mmap_offset_size
 
+	drm_gem_get_pages -> file_inode
+	drm_gem_get_pages -> WARN_ON
+	drm_gem_get_pages -> drm_malloc_ab
+	drm_gem_get_pages -> ERR_PTR
+	drm_gem_get_pages -> mapping_gfp_mask
+	drm_gem_get_pages -> shmem_read_mapping_page_gfp
+	drm_gem_get_pages -> BUG_ON
+	drm_gem_get_pages -> page_cache_release
+	drm_gem_get_pages -> drm_free_large
+	drm_gem_get_pages -> ERR_CAST
 
+	drm_gem_put_pages -> WARN_ON
+	drm_gem_put_pages -> set_page_dirty
+	drm_gem_put_pages -> mark_page_accessed
+	drm_gem_put_pages -> page_cache_release
+	drm_gem_put_pages -> drm_free_large
 
+	drm_gem_object_lookup -> spin_lock
+	drm_gem_object_lookup -> idr_find
+	drm_gem_object_lookup -> spin_unlock
+	drm_gem_object_lookup -> drm_gem_object_reference
+	drm_gem_object_lookup -> spin_unlock
 
+	drm_gem_close_ioctl -> drm_gem_handle_delete
+
+	drm_gem_flink_ioctl -> drm_gem_object_lookup
+	drm_gem_flink_ioctl -> mutex_lock
+	drm_gem_flink_ioctl -> idr_preload
+	drm_gem_flink_ioctl -> idr_alloc
+	drm_gem_flink_ioctl -> idr_preload_end
+	drm_gem_flink_ioctl -> mutex_unlock
+	drm_gem_flink_ioctl -> drm_gem_object_unreference_unlocked
+
+	drm_gem_open_ioctl -> mutex_lock
+	drm_gem_open_ioctl -> idr_find
+	drm_gem_open_ioctl -> drm_gem_object_reference
+	drm_gem_open_ioctl -> mutex_unlock
+	drm_gem_open_ioctl -> drm_gem_handle_create_tail
+	drm_gem_open_ioctl -> drm_gem_object_unreference_unlocked
+
+	drm_gem_open -> idr_init
+	drm_gem_open -> spin_lock_init
+
+	drm_gem_object_release_handle -> drm_core_check_feature
+	drm_gem_object_release_handle -> drm_gem_remove_prime_handles
+	drm_gem_object_release_handle -> drm_vma_node_revoke
+	drm_gem_object_release_handle -> "dev->driver->gem_close_object"
+	"dev->driver->gem_close_object" [style=filled, fillcolor=blue]
+	drm_gem_object_release_handle -> drm_gem_object_handle_unreference_unlocked
+
+	drm_gem_release -> idr_for_each
+	drm_gem_release -> idr_destroy
+
+	drm_gem_object_release -> WARN_ON
+	drm_gem_object_release -> fput
+	drm_gem_object_release -> drm_gem_free_mmap_offset
+
+	drm_gem_object_free -> BUG_ON
+	drm_gem_object_free -> mutex_is_locked
+	drm_gem_object_free -> "dev->driver->gem_free_object"
+	"dev->driver->gem_free_object" [style=filled, fillcolor=blue]
+
+	drm_gem_vm_open -> mutex_lock
+	drm_gem_vm_open -> drm_vm_open_locked
+	drm_gem_vm_open -> mutex_unlock
+
+	drm_gem_vm_close -> mutex_lock
+	drm_gem_vm_close -> drm_vm_close_locked
+	drm_gem_vm_close -> drm_gem_object_unreference
+	drm_gem_vm_close -> mutex_unlock
+
+	drm_gem_mmap_obj -> lockdep_assert_held
+	drm_gem_mmap_obj -> pgprot_writecombine -> vm_get_page_prot
+	drm_gem_mmap_obj -> drm_gem_object_reference
+	drm_gem_mmap_obj -> drm_vm_open_locked
+
+	drm_gem_mmap -> drm_device_is_unplugged
+	drm_gem_mmap -> mutex_lock
+	drm_gem_mmap -> drm_vma_offset_exact_lookup
+	drm_gem_mmap -> mutex_unlock
+	drm_gem_mmap -> drm_mmap
+	drm_gem_mmap -> drm_vma_node_is_allowed
+	drm_gem_mmap -> mutex_unlock
+	drm_gem_mmap -> container_of
+	drm_gem_mmap -> drm_gem_mmap_obj -> drm_vma_node_size
+	drm_gem_mmap -> mutex_unlock
+
+# drm_gem_cma_helper.c
+	__drm_gem_cma_create -> kzalloc
+	__drm_gem_cma_create -> ERR_PTR
+	__drm_gem_cma_create -> drm_gem_object_init
+	__drm_gem_cma_create -> drm_gem_create_mmap_offset
+	__drm_gem_cma_create -> drm_gem_object_release
+	__drm_gem_cma_create -> kfree
+	__drm_gem_cma_create -> ERR_PTR
+
+	drm_gem_cma_create -> round_up
+	drm_gem_cma_create -> __drm_gem_cma_create
+	drm_gem_cma_create -> IS_ERR
+	drm_gem_cma_create -> dma_alloc_writecombine
+	drm_gem_cma_create -> dev_err
+	drm_gem_cma_create -> drm_gem_cma_free_object
+	drm_gem_cma_create -> ERR_PTR
+
+	drm_gem_cma_create_with_handle -> drm_gem_cma_create
+	drm_gem_cma_create_with_handle -> IS_ERR
+	drm_gem_cma_create_with_handle -> drm_gem_handle_create
+	drm_gem_cma_create_with_handle -> drm_gem_object_unreference_unlocked
+	drm_gem_cma_create_with_handle -> drm_gem_cma_free_object
+	drm_gem_cma_create_with_handle -> ERR_PTR
+
+	drm_gem_cma_free_object -> drm_gem_free_mmap_offset
+	drm_gem_cma_free_object -> dma_free_writecombine
+	drm_gem_cma_free_object -> drm_prime_gem_destroy
+	drm_gem_cma_free_object -> drm_gem_object_release
+	drm_gem_cma_free_object -> kfree
+
+	drm_gem_cma_dumb_create -> DIV_ROUND_UP
+	drm_gem_cma_dumb_create -> drm_gem_cma_create_with_handle
+	drm_gem_cma_dumb_create -> PTR_ERR_OR_ZERO
+
+	drm_gem_cma_dumb_map_offset -> mutex_lock
+	drm_gem_cma_dumb_map_offset -> drm_gem_object_lookup
+	drm_gem_cma_dumb_map_offset -> dev_err
+	drm_gem_cma_dumb_map_offset -> mutex_unlock
+	drm_gem_cma_dumb_map_offset -> drm_vma_node_offset_addr
+	drm_gem_cma_dumb_map_offset -> drm_gem_object_unreference
+	drm_gem_cma_dumb_map_offset -> mutex_unlock
+
+	drm_gem_cma_mmap_obj -> dma_mmap_writecombine
+	drm_gem_cma_mmap_obj -> drm_gem_vm_close
+
+	drm_gem_cma_mmap -> drm_gem_mmap
+	drm_gem_cma_mmap -> to_drm_gem_cma_obj
+	drm_gem_cma_mmap -> drm_gem_cma_mmap_obj
+
+	drm_gem_cma_describe -> WARN_ON
+	drm_gem_cma_describe -> mutex_is_locked
+	drm_gem_cma_describe -> drm_vma_node_start
+	drm_gem_cma_describe -> seq_printf
+	drm_gem_cma_describe -> seq_printf
+
+	drm_gem_cma_prime_get_sg_table -> to_drm_gem_cma_obj
+	drm_gem_cma_prime_get_sg_table -> kzalloc
+	drm_gem_cma_prime_get_sg_table -> dma_get_sgtable
+	drm_gem_cma_prime_get_sg_table -> kfree
+
+	drm_gem_cma_prime_import_sg_table -> ERR_PTR
+	drm_gem_cma_prime_import_sg_table -> __drm_gem_cma_create
+	drm_gem_cma_prime_import_sg_table -> IS_ERR
+	drm_gem_cma_prime_import_sg_table -> ERR_PTR
+	drm_gem_cma_prime_import_sg_table -> ERR_PTR
+	drm_gem_cma_prime_import_sg_table -> sg_dma_address
+	drm_gem_cma_prime_import_sg_table -> DRM_DEBUG_PRIME
+
+	drm_gem_cma_prime_mmap -> mutex_lock
+	drm_gem_cma_prime_mmap -> drm_gem_mmap_obj
+	drm_gem_cma_prime_mmap -> mutex_unlock
+	drm_gem_cma_prime_mmap -> to_drm_gem_cma_obj
+	drm_gem_cma_prime_mmap -> drm_gem_cma_mmap_obj
+
+	drm_gem_cma_prime_vmap -> to_drm_gem_cma_obj
+
+# drm_global.c
+	drm_global_init -> mutex_init
+
+	drm_global_release -> BUG_ON
+
+	drm_global_item_ref -> mutex_lock
+	drm_global_item_ref -> kzalloc
+	drm_global_item_ref -> unlikely
+	drm_global_item_ref -> unlikely
+	drm_global_item_ref -> mutex_unlock
+	drm_global_item_ref -> mutex_unlock
+
+	drm_global_item_unref -> mutex_lock
+	drm_global_item_unref -> BUG_ON
+	drm_global_item_unref -> mutex_unlock
+
+# drm_hashtab.c
+	drm_ht_create -> kcalloc
+	drm_ht_create -> vzalloc
+	drm_ht_create -> DRM_ERROR
+
+	drm_ht_verbose_list -> hash_long
+	drm_ht_verbose_list -> DRM_DEBUG
+	drm_ht_verbose_list -> hlist_for_each_entry
+	drm_ht_verbose_list -> DRM_DEBUG
+
+	drm_ht_find_key -> hash_long
+	drm_ht_find_key -> hlist_for_each_entry
+
+	drm_ht_find_key_rcu -> hash_long
+	drm_ht_find_key_rcu -> hlist_for_each_entry_rcu
+
+	drm_ht_insert_item -> hash_long
+	drm_ht_insert_item -> hlist_for_each_entry
+	drm_ht_insert_item -> hlist_add_after_rcu
+	drm_ht_insert_item -> hlist_add_head_rcu
+
+	drm_ht_just_insert_please -> hash_long
+	drm_ht_just_insert_please -> drm_ht_insert_item
+	drm_ht_just_insert_please -> DRM_ERROR
+
+	drm_ht_find_item -> drm_ht_find_key_rcu
+	drm_ht_find_item -> hlist_entry
+
+	drm_ht_remove_key -> drm_ht_find_key
+	drm_ht_remove_key -> hlist_del_init_rcu
+
+	drm_ht_remove_item -> hlist_del_init_rcu
+
+	drm_ht_remove -> kfree
+	drm_ht_remove -> vfree
+
+# drm_info.c
+	drm_name_info -> "dev->driver->bus->get_name"
+	"dev->driver->bus->get_name" [style=filled, fillcolor=blue]
+	drm_name_info -> seq_printf
+	drm_name_info -> dev_name
+	drm_name_info -> seq_printf
+	drm_name_info -> dev_name
+
+	drm_vm_info -> mutex_lock
+	drm_vm_info -> seq_printf
+	drm_vm_info -> list_for_each_entry
+	drm_vm_info -> seq_printf
+	drm_vm_info -> seq_printf
+	drm_vm_info -> seq_printf
+	drm_vm_info -> mutex_unlock
+
+	drm_bufs_info -> mutex_lock
+	drm_bufs_info -> mutex_unlock
+	drm_bufs_info -> seq_printf
+	drm_bufs_info -> seq_printf
+	drm_bufs_info -> atomic_read
+	drm_bufs_info -> seq_printf
+	drm_bufs_info -> seq_printf
+	drm_bufs_info -> seq_printf
+	drm_bufs_info -> seq_printf
+	drm_bufs_info -> mutex_unlock
+
+	drm_vblank_info -> mutex_lock
+	drm_vblank_info -> seq_printf
+	drm_vblank_info -> atomic_read
+	drm_vblank_info -> seq_printf
+	drm_vblank_info -> drm_vblank_count
+	drm_vblank_info -> seq_printf
+	drm_vblank_info -> mutex_unlock
+
+	drm_clients_info -> mutex_lock
+	drm_clients_info -> seq_printf
+	drm_clients_info -> list_for_each_entry
+	drm_clients_info -> seq_printf
+	drm_clients_info -> pid_vnr
+	drm_clients_info -> from_kuid_munged -> seq_user_ns
+	drm_clients_info -> mutex_unlock
+
+	drm_gem_one_name_info -> seq_printf
+	drm_gem_one_name_info -> atomic_read
+
+	drm_gem_name_info -> seq_printf
+	drm_gem_name_info -> mutex_lock
+	drm_gem_name_info -> idr_for_each
+	drm_gem_name_info -> mutex_unlock
+
+	drm_vma_info -> mutex_lock
+	drm_vma_info -> list_for_each_entry
+	drm_vma_info -> seq_printf
+	drm_vma_info -> virt_to_phys
+	drm_vma_info -> list_for_each_entry
+	drm_vma_info -> seq_printf
+	drm_vma_info -> pgprot_val
+	drm_vma_info -> seq_printf
+	drm_vma_info -> seq_printf
+	drm_vma_info -> mutex_unlock
+
+	compat_drm_version -> copy_from_user
+	compat_drm_version -> compat_alloc_user_space
+	compat_drm_version -> access_ok
+	compat_drm_version -> __put_user
+	compat_drm_version -> __put_user
+	compat_drm_version -> __put_user
+	compat_drm_version -> __put_user
+	compat_drm_version -> __put_user
+	compat_drm_version -> __put_user
+	compat_drm_version -> drm_ioctl
+	compat_drm_version -> __get_user
+	compat_drm_version -> __get_user
+	compat_drm_version -> __get_user
+	compat_drm_version -> __get_user
+	compat_drm_version -> __get_user
+	compat_drm_version -> __get_user
+	compat_drm_version -> copy_to_user
+
+	compat_drm_getunique -> copy_from_user
+	compat_drm_getunique -> compat_alloc_user_space
+	compat_drm_getunique -> access_ok
+	compat_drm_getunique -> __put_user
+	compat_drm_getunique -> __put_user
+	compat_drm_getunique -> drm_ioctl
+	compat_drm_getunique -> __get_user
+	compat_drm_getunique -> copy_to_user
+
+	compat_drm_setunique -> copy_from_user
+	compat_drm_getunique -> compat_alloc_user_space
+	compat_drm_getunique -> access_ok
+	compat_drm_getunique -> __put_user
+	compat_drm_getunique -> __put_user
+	compat_drm_getunique -> drm_ioctl
+
+	compat_drm_getmap -> get_user
+	compat_drm_getmap -> compat_alloc_user_space
+	compat_drm_getmap -> access_ok
+	compat_drm_getmap -> __put_user
+	compat_drm_getmap -> drm_ioctl
+	compat_drm_getmap -> __get_user
+	compat_drm_getmap -> __get_user
+	compat_drm_getmap -> __get_user
+	compat_drm_getmap -> __get_user
+	compat_drm_getmap -> __get_user
+	compat_drm_getmap -> __get_user
+	compat_drm_getmap -> copy_to_user
+
+	compat_drm_addmap -> copy_from_user
+	compat_drm_addmap -> compat_alloc_user_space
+	compat_drm_addmap -> access_ok
+	compat_drm_addmap -> __put_user
+	compat_drm_addmap -> __put_user
+	compat_drm_addmap -> __put_user
+	compat_drm_addmap -> __put_user
+	compat_drm_addmap -> drm_ioctl
+	compat_drm_addmap -> __get_user
+	compat_drm_addmap -> __get_user
+	compat_drm_addmap -> __get_user
+	compat_drm_addmap -> printk_ratelimited
+	compat_drm_addmap -> copy_to_user
+
+	compat_drm_rmmap -> get_user
+	compat_drm_rmmap -> compat_alloc_user_space
+	compat_drm_rmmap -> access_ok
+	compat_drm_rmmap -> __put_user
+	compat_drm_rmmap -> drm_ioctl
+
+	compat_drm_getclient -> get_user
+	compat_drm_getclient -> compat_alloc_user_space
+	compat_drm_getclient -> access_ok
+	compat_drm_getclient -> __put_user
+	compat_drm_getclient -> drm_ioctl
+	compat_drm_getclient -> __get_user
+	compat_drm_getclient -> __get_user
+	compat_drm_getclient -> __get_user
+	compat_drm_getclient -> __get_user
+	compat_drm_getclient -> __get_user
+	compat_drm_getclient -> __get_user
+	compat_drm_getclient -> copy_to_user
+
+	compat_drm_getstats -> compat_alloc_user_space
+	compat_drm_getstats -> access_ok
+	compat_drm_getstats -> drm_ioctl
+	compat_drm_getstats -> __get_user
+	compat_drm_getstats -> __get_user
+	compat_drm_getstats -> __get_user
+	compat_drm_getstats -> copy_to_user
+
+	compat_drm_addbufs -> compat_alloc_user_space
+	compat_drm_addbufs -> access_ok
+	compat_drm_addbufs -> access_ok
+	compat_drm_addbufs -> __copy_in_user
+	compat_drm_addbufs -> offsetof
+	compat_drm_addbufs -> __get_user
+	compat_drm_addbufs -> __put_user
+	compat_drm_addbufs -> drm_ioctl
+	compat_drm_addbufs -> __copy_in_user
+	compat_drm_addbufs -> offsetof
+	compat_drm_addbufs -> __get_user
+	compat_drm_addbufs -> __put_user
+
+	compat_drm_markbufs -> copy_from_user
+	compat_drm_markbufs -> compat_alloc_user_space
+	compat_drm_markbufs -> access_ok
+	compat_drm_markbufs -> __put_user
+	compat_drm_markbufs -> __put_user
+	compat_drm_markbufs -> __put_user
+	compat_drm_markbufs -> drm_ioctl
+
+	compat_drm_infobufs -> copy_from_user
+	compat_drm_infobufs -> access_ok
+	compat_drm_infobufs -> compat_alloc_user_space
+	compat_drm_infobufs -> access_ok
+	compat_drm_infobufs -> __put_user
+	compat_drm_infobufs -> __put_user
+	compat_drm_infobufs -> drm_ioctl
+	compat_drm_infobufs -> __get_user
+	compat_drm_infobufs -> __copy_in_user
+	compat_drm_infobufs -> offsetof
+	compat_drm_infobufs -> __put_user
+
+	compat_drm_mapbufs -> copy_from_user
+	compat_drm_mapbufs -> compat_alloc_user_space
+	compat_drm_mapbufs -> access_ok
+	compat_drm_mapbufs -> __put_user
+	compat_drm_mapbufs -> __put_user
+	compat_drm_mapbufs -> drm_ioctl
+	compat_drm_mapbufs -> __get_user
+	compat_drm_mapbufs -> __copy_in_user
+	compat_drm_mapbufs -> offsetof
+	compat_drm_mapbufs -> __get_user
+	compat_drm_mapbufs -> __put_user
+	compat_drm_mapbufs -> __put_user
+	compat_drm_mapbufs -> __get_user
+	compat_drm_mapbufs -> __put_user
+
+	compat_drm_freebufs -> copy_from_user
+	compat_drm_freebufs -> compat_alloc_user_space
+	compat_drm_freebufs -> access_ok
+	compat_drm_freebufs -> __put_user
+	compat_drm_freebufs -> __put_user
+	compat_drm_freebufs -> drm_ioctl
+
+	compat_drm_setsareactx -> copy_from_user
+	compat_drm_setsareactx -> compat_alloc_user_space
+	compat_drm_setsareactx -> access_ok
+	compat_drm_setsareactx -> __put_user
+	compat_drm_setsareactx -> __put_user
+	compat_drm_setsareactx -> drm_ioctl
+
+	compat_drm_getsareactx -> access_ok
+	compat_drm_getsareactx -> __get_user
+	compat_drm_getsareactx -> compat_alloc_user_space
+	compat_drm_getsareactx -> access_ok
+	compat_drm_getsareactx -> __put_user
+	compat_drm_getsareactx -> drm_ioctl
+	compat_drm_getsareactx -> __get_user
+	compat_drm_getsareactx -> __put_user
+
+	compat_drm_resctx -> copy_from_user
+	compat_drm_resctx -> compat_alloc_user_space
+	compat_drm_resctx -> access_ok
+	compat_drm_resctx -> __put_user
+	compat_drm_resctx -> __put_user
+	compat_drm_resctx -> drm_ioctl
+	compat_drm_resctx -> __get_user
+	compat_drm_resctx -> __put_user
+
+	compat_drm_dma -> copy_from_user
+	compat_drm_dma -> compat_alloc_user_space
+	compat_drm_dma -> access_ok
+	compat_drm_dma -> __put_user
+	compat_drm_dma -> __put_user
+	compat_drm_dma -> __put_user
+	compat_drm_dma -> __put_user
+	compat_drm_dma -> __put_user
+	compat_drm_dma -> __put_user
+	compat_drm_dma -> __put_user
+	compat_drm_dma -> __put_user
+	compat_drm_dma -> drm_ioctl
+	compat_drm_dma -> __get_user
+	compat_drm_dma -> __get_user
+	compat_drm_dma -> __put_user
+	compat_drm_dma -> __put_user
+
+	compat_drm_agp_enable -> get_user
+	compat_drm_agp_enable -> compat_alloc_user_space
+	compat_drm_agp_enable -> put_user
+	compat_drm_agp_enable -> drm_ioctl
+
+	compat_drm_agp_info -> compat_alloc_user_space
+	compat_drm_agp_info -> access_ok
+	compat_drm_agp_info -> drm_ioctl
+	compat_drm_agp_info -> __get_user
+	compat_drm_agp_info -> __get_user
+	compat_drm_agp_info -> __get_user
+	compat_drm_agp_info -> __get_user
+	compat_drm_agp_info -> __get_user
+	compat_drm_agp_info -> __get_user
+	compat_drm_agp_info -> __get_user
+	compat_drm_agp_info -> __get_user
+	compat_drm_agp_info -> __get_user
+	compat_drm_agp_info -> copy_to_user
+
+	compat_drm_agp_alloc -> copy_from_user
+	compat_drm_agp_alloc -> compat_alloc_user_space
+	compat_drm_agp_alloc -> access_ok
+	compat_drm_agp_alloc -> __put_user
+	compat_drm_agp_alloc -> __put_user
+	compat_drm_agp_alloc -> drm_ioctl
+	compat_drm_agp_alloc -> __get_user
+	compat_drm_agp_alloc -> __get_user
+	compat_drm_agp_alloc -> copy_to_user
+	compat_drm_agp_alloc -> drm_ioctl
+
+	compat_drm_agp_free -> compat_alloc_user_space
+	compat_drm_agp_free -> access_ok
+	compat_drm_agp_free -> get_user
+	compat_drm_agp_free -> __put_user
+	compat_drm_agp_free -> drm_ioctl
+
+	compat_drm_agp_bind -> copy_from_user
+	compat_drm_agp_bind -> compat_alloc_user_space
+	compat_drm_agp_bind -> access_ok
+	compat_drm_agp_bind -> __put_user
+	compat_drm_agp_bind -> __put_user
+	compat_drm_agp_bind -> drm_ioctl
+
+	compat_drm_agp_unbind -> compat_alloc_user_space
+	compat_drm_agp_unbind -> access_ok
+	compat_drm_agp_unbind -> get_user
+	compat_drm_agp_unbind -> __put_user
+	compat_drm_agp_unbind -> drm_ioctl
+
+	compat_drm_sg_alloc -> compat_alloc_user_space
+	compat_drm_sg_alloc -> access_ok
+	compat_drm_sg_alloc -> access_ok
+	compat_drm_sg_alloc -> __get_user
+	compat_drm_sg_alloc -> __put_user
+	compat_drm_sg_alloc -> drm_ioctl
+	compat_drm_sg_alloc -> __get_user
+	compat_drm_sg_alloc -> __put_user
+
+	compat_drm_sg_free -> compat_alloc_user_space
+	compat_drm_sg_free -> access_ok
+	compat_drm_sg_free -> access_ok
+	compat_drm_sg_free -> __get_user
+	compat_drm_sg_free -> __put_user
+	compat_drm_sg_free -> drm_ioctl
+
+	compat_drm_update_draw -> copy_from_user
+	compat_drm_update_draw -> compat_alloc_user_space
+	compat_drm_update_draw -> access_ok
+	compat_drm_update_draw -> __put_user
+	compat_drm_update_draw -> __put_user
+	compat_drm_update_draw -> __put_user
+	compat_drm_update_draw -> __put_user
+	compat_drm_update_draw -> drm_ioctl
+
+	compat_drm_wait_vblank -> copy_from_user
+	compat_drm_wait_vblank -> compat_alloc_user_space
+	compat_drm_wait_vblank -> access_ok
+	compat_drm_wait_vblank -> __put_user
+	compat_drm_wait_vblank -> __put_user
+	compat_drm_wait_vblank -> __put_user
+	compat_drm_wait_vblank -> drm_ioctl
+	compat_drm_wait_vblank -> __get_user
+	compat_drm_wait_vblank -> __get_user
+	compat_drm_wait_vblank -> __get_user
+	compat_drm_wait_vblank -> __get_user
+	compat_drm_wait_vblank -> copy_to_user
+
+	drm_compat_ioctl -> DRM_IOCTL_NR
+	drm_compat_ioctl -> ARRAY_SIZE
+	drm_compat_ioctl -> drm_ioctl
+
+# drm_ioctl.c
+	drm_getunique -> copy_to_user
+
+	drm_unset_busid -> kfree
+	drm_unset_busid -> kfree
+
+	drm_setunique -> "dev->driver->bus->set_unique"
+	"dev->driver->bus->set_unique" [style=filled, fillcolor=blue]
+	drm_setunique -> drm_unset_busid
+
+	drm_set_busid -> drm_unset_busid
+	drm_set_busid -> "dev->driver->bus->set_busid"
+	"dev->driver->bus->set_busid" [style=filled, fillcolor=blue]
+	drm_set_busid -> drm_unset_busid
+
+	drm_getmap -> mutex_lock
+	drm_getmap -> list_for_each
+	drm_getmap -> mutex_unlock
+	drm_getmap -> phys_wc_to_mtrr_index
+	drm_getmap -> mutex_unlock
+
+	drm_getclient -> from_kuid_munged
+
+	drm_getstats -> memset
+
+	drm_setversion -> DRM_IF_VERSION
+	drm_setversion -> max
+	drm_setversion -> drm_set_busid
+
+	drm_noop -> DRM_DEBUG
+
+# drm_irq.c
+	drm_irq_by_busid -> drm_core_check_feature
+	drm_irq_by_busid -> "dev->driver->bus->irq_by_busid"
+	"dev->driver->bus->irq_by_busid" [style=filled, fillcolor=blue]
+
+	clear_vblank_timestamps -> memset
+
+	vblank_disable_and_save -> "dev->driver->disable_vblank"
+	"dev->driver->disable_vblank" [style=filled, fillcolor=blue]
+	vblank_disable_and_save -> "dev->driver->get_vblank_counter"
+	"dev->driver->get_vblank_counter" [style=filled, fillcolor=blue]
+	vblank_disable_and_save -> atomic_read
+	vblank_disable_and_save -> timeval_to_ns
+	vblank_disable_and_save -> timeval_to_ns -> vblanktimestamp
+	vblank_disable_and_save -> abs64
+	vblank_disable_and_save -> atomic_inc
+	vblank_disable_and_save -> smp_mb__after_atomic_inc
+	vblank_disable_and_save -> clear_vblank_timestamps
+	vblank_disable_and_save -> spin_unlock_irqrestore
+
+	vblank_disable_fn -> spin_lock_irqsave
+	vblank_disable_fn -> atomic_read
+	vblank_disable_fn -> DRM_DEBUG
+	vblank_disable_fn -> vblank_disable_and_save
+	vblank_disable_fn -> spin_unlock_irqrestore
+
+	drm_vblank_cleanup -> del_timer_sync
+	drm_vblank_cleanup -> vblank_disable_fn
+	drm_vblank_cleanup -> kfree
+
+	drm_vblank_init -> setup_timer
+	drm_vblank_init -> spin_lock_init
+	drm_vblank_init -> spin_lock_init
+	drm_vblank_init -> kcalloc
+	drm_vblank_init -> init_waitqueue_head
+	drm_vblank_init -> DRM_INFO
+	drm_vblank_init -> drm_vblank_cleanup
+
+	drm_irq_vgaarb_nokms -> "dev->driver->vgaarb_irq"
+	"dev->driver->vgaarb_irq" [style=filled, fillcolor=blue]
+	drm_irq_vgaarb_nokms -> "dev->driver->irq_uninstall"
+	"dev->driver->irq_uninstall" [style=filled, fillcolor=blue]
+	drm_irq_vgaarb_nokms -> "dev->driver->irq_preinstall"
+	"dev->driver->irq_preinstall" [style=filled, fillcolor=blue]
+	drm_irq_vgaarb_nokms -> "dev->driver->irq_postinstall"
+	"dev->driver->irq_postinstall" [style=filled, fillcolor=blue]
+
+	drm_irq_install -> drm_core_check_feature
+	drm_irq_install -> drm_dev_to_irq
+	drm_irq_install -> mutex_lock
+	drm_irq_install -> mutex_unlock
+	drm_irq_install -> mutex_unlock
+	drm_irq_install -> mutex_unlock
+	drm_irq_install -> DRM_DEBUG
+	drm_irq_install -> "dev->driver->irq_preinstall"
+	"dev->driver->irq_preinstall" [style=filled, fillcolor=blue]
+	drm_irq_install -> drm_core_check_feature
+	drm_irq_install -> request_irq
+	drm_irq_install -> mutex_lock
+	drm_irq_install -> mutex_unlock
+	drm_irq_install -> drm_core_check_feature
+	drm_irq_install -> vga_client_register
+	drm_irq_install -> "dev->driver->irq_postinstall"
+	"dev->driver->irq_postinstall" [style=filled, fillcolor=blue]
+	drm_irq_install -> mutex_lock
+	drm_irq_install -> mutex_unlock
+	drm_irq_install -> drm_core_check_feature
+	drm_irq_install -> vga_client_register
+	drm_irq_install -> free_irq
+
+	drm_irq_uninstall -> drm_core_check_feature
+	drm_irq_uninstall -> mutex_lock
+	drm_irq_uninstall -> mutex_unlock
+	drm_irq_uninstall -> spin_lock_irqsave
+	drm_irq_uninstall -> wake_up
+	drm_irq_uninstall -> "dev->driver->get_vblank_counter"
+	"dev->driver->get_vblank_counter" [style=filled, fillcolor=blue]
+	drm_irq_uninstall -> spin_unlock_irqrestore
+	drm_irq_uninstall -> DRM_DEBUG
+	drm_irq_uninstall -> drm_core_check_feature
+	drm_irq_uninstall -> vga_client_register
+	drm_irq_uninstall -> "dev->driver->irq_uninstall"
+	"dev->driver->irq_uninstall" [style=filled, fillcolor=blue]
+	drm_irq_uninstall -> free_irq
+
+	drm_control -> drm_core_check_feature
+	drm_control -> drm_core_check_feature
+	drm_control -> drm_dev_to_irq
+	drm_control -> drm_core_check_feature
+	drm_control -> drm_core_check_feature
+	drm_control -> drm_irq_uninstall
+
+	drm_calc_timestamping_constants -> div_u64
+	drm_calc_timestamping_constants -> div_u64
+	drm_calc_timestamping_constants -> DRM_ERROR
+	drm_calc_timestamping_constants -> DRM_DEBUG
+
+	drm_calc_vbltimestamp_from_scanoutpos -> DRM_ERROR
+	drm_calc_vbltimestamp_from_scanoutpos -> DRM_DEBUG
+	drm_calc_vbltimestamp_from_scanoutpos -> "dev->driver->get_scanout_position"
+	"dev->driver->get_scanout_position" [style=filled, fillcolor=blue]
+	drm_calc_vbltimestamp_from_scanoutpos -> ktime_get_monotonic_offset
+	drm_calc_vbltimestamp_from_scanoutpos -> ktime_to_ns
+	drm_calc_vbltimestamp_from_scanoutpos -> ktime_sub
+	drm_calc_vbltimestamp_from_scanoutpos -> ktime_add_ns
+	drm_calc_vbltimestamp_from_scanoutpos -> ktime_sub_ns
+
+	get_drm_timestamp -> ktime_get
+	get_drm_timestamp -> ktime_sub
+	get_drm_timestamp -> ktime_to_timeval
+
+	drm_get_last_vbltimestamp -> "dev->driver->get_vblank_timestamp"
+	"dev->driver->get_vblank_timestamp" [style=filled, fillcolor=blue]
+	drm_get_last_vbltimestamp -> get_drm_timestamp
+
+	drm_vblank_count -> atomic_read
+
+	drm_vblank_count_and_time -> atomic_read
+	drm_vblank_count_and_time -> vblanktimestamp
+	drm_vblank_count_and_time -> atomic_read
+
+	send_vblank_event -> WARN_ON_SMP
+	drm_vblank_count_and_time -> list_add_tail
+	drm_vblank_count_and_time -> wake_up_interruptible
+	drm_vblank_count_and_time -> trace_drm_vblank_event_delivered
+
+	drm_send_vblank_event -> drm_vblank_count_and_time
+	drm_send_vblank_event -> get_drm_timestamp
+	drm_send_vblank_event -> send_vblank_event
+
+	drm_update_vblank_count -> "dev->driver->get_vblank_counter"
+	"dev->driver->get_vblank_counter" [style=filled, fillcolor=blue]
+	drm_update_vblank_count -> drm_get_last_vbltimestamp
+	drm_update_vblank_count -> "dev->driver->get_vblank_counter"
+	"dev->driver->get_vblank_counter" [style=filled, fillcolor=blue]
+	drm_update_vblank_count -> DRM_DEBUG
+	drm_update_vblank_count -> atomic_read
+	drm_update_vblank_count -> vblanktimestamp
+	drm_update_vblank_count -> smp_mb__before_atomic_inc
+	drm_update_vblank_count -> atomic_add
+	drm_update_vblank_count -> smp_mb__after_atomic_inc
+
+	drm_vblank_get -> atomic_add_return
+	drm_vblank_get -> spin_lock_irqsave
+	drm_vblank_get -> "dev->driver->enable_vblank"
+	"dev->driver->enable_vblank" [style=filled, fillcolor=blue]
+	drm_vblank_get -> DRM_DEBUG
+	drm_vblank_get -> atomic_dec
+	drm_vblank_get -> drm_update_vblank_count
+	drm_vblank_get -> spin_unlock_irqrestore
+	drm_vblank_get -> atomic_dec
+	drm_vblank_get -> spin_unlock_irqrestore
+
+	drm_vblank_put -> BUG_ON
+	drm_vblank_put -> atomic_read
+	drm_vblank_put -> atomic_dec_and_test
+	drm_vblank_put -> mod_timer
+
+	drm_vblank_off -> spin_lock_irqsave
+	drm_vblank_off -> vblank_disable_and_save
+	drm_vblank_off -> wake_up
+	drm_vblank_off -> drm_vblank_count_and_time
+	drm_vblank_off -> spin_lock
+	drm_vblank_off -> list_for_each_entry_safe
+	drm_vblank_off -> DRM_DEBUG
+	drm_vblank_off -> list_del
+	drm_vblank_off -> drm_vblank_put
+	drm_vblank_off -> send_vblank_event
+	drm_vblank_off -> spin_unlock
+	drm_vblank_off -> spin_unlock_irqrestore
+
+	drm_vblank_pre_modeset -> drm_vblank_get
+
+	drm_vblank_post_modeset -> spin_lock_irqsave
+	drm_vblank_post_modeset -> spin_unlock_irqrestore
+	drm_vblank_post_modeset -> drm_vblank_put
+
+	drm_modeset_ctl -> drm_core_check_feature
+	drm_modeset_ctl -> drm_vblank_pre_modeset
+	drm_modeset_ctl -> drm_vblank_post_modeset
+
+	drm_queue_vblank_event -> kzalloc
+	drm_queue_vblank_event -> spin_lock_irqsave
+	drm_queue_vblank_event -> drm_vblank_count_and_time
+	drm_queue_vblank_event -> DRM_DEBUG
+	drm_queue_vblank_event -> trace_drm_vblank_event_queued
+	drm_queue_vblank_event -> drm_vblank_put
+	drm_queue_vblank_event -> send_vblank_event
+	drm_queue_vblank_event -> list_add_tail
+	drm_queue_vblank_event -> spin_unlock_irqrestore
+	drm_queue_vblank_event -> spin_unlock_irqrestore
+	drm_queue_vblank_event -> drm_vblank_put
+
+	drm_wait_vblank -> drm_core_check_feature
+	drm_wait_vblank -> drm_dev_to_irq
+	drm_wait_vblank -> DRM_ERROR
+	drm_wait_vblank -> drm_vblank_get
+	drm_wait_vblank -> drm_vblank_count
+	drm_wait_vblank -> drm_queue_vblank_event
+	drm_wait_vblank -> DRM_WAIT_ON
+	drm_wait_vblank -> drm_vblank_count
+	drm_wait_vblank -> drm_vblank_count_and_time
+	drm_wait_vblank -> drm_vblank_put
+
+	drm_handle_vblank_events -> drm_vblank_count_and_time
+	drm_handle_vblank_events -> spin_lock_irqsave
+	drm_handle_vblank_events -> list_for_each_entry_safe
+	drm_handle_vblank_events -> DRM_DEBUG
+	drm_handle_vblank_events -> list_del
+	drm_handle_vblank_events -> drm_vblank_put
+	drm_handle_vblank_events -> send_vblank_event
+	drm_handle_vblank_events -> spin_unlock_irqrestore
+	drm_handle_vblank_events -> trace_drm_vblank_event
+
+	drm_handle_vblank -> spin_lock_irqsave
+	drm_handle_vblank -> spin_unlock_irqrestore
+	drm_handle_vblank -> atomic_read
+	drm_handle_vblank -> drm_get_last_vbltimestamp
+	drm_handle_vblank -> timeval_to_ns
+	drm_handle_vblank -> timeval_to_ns -> vblanktimestamp
+	drm_handle_vblank -> abs64
+	drm_handle_vblank -> smp_mb__before_atomic_inc
+	drm_handle_vblank -> atomic_inc
+	drm_handle_vblank -> smp_mb__after_atomic_inc
+	drm_handle_vblank -> DRM_DEBUG
+	drm_handle_vblank -> wake_up
+	drm_handle_vblank -> drm_handle_vblank_events
+	drm_handle_vblank -> spin_unlock_irqrestore
 
 
 }
