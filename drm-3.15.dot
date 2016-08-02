@@ -2068,6 +2068,326 @@ digraph drm315 {
 	drm_enable_connectors -> DRM_DEBUG_KMS
 	drm_enable_connectors -> drm_connector_enabled
 
+	drm_target_cloned -> drm_pick_cmdline_mode
+	drm_target_cloned -> DRM_DEBUG_KMS
+	drm_target_cloned -> drm_mode_find_dmt
+	drm_target_cloned -> list_for_each_entry
+	drm_target_cloned -> DRM_INFO
+
+	drm_target_preferred -> DRM_DEBUG_KMS
+	drm_target_preferred -> drm_pick_cmdline_mode
+	drm_target_preferred -> drm_has_preferred_mode
+	drm_target_preferred -> list_empty
+	drm_target_preferred -> list_for_each_entry
+
+	drm_pick_crtcs -> drm_pick_crtcs
+	drm_pick_crtcs -> kzalloc
+	drm_pick_crtcs -> drm_has_cmdline_mode
+	drm_pick_crtcs -> drm_has_preferred_mode
+	drm_pick_crtcs -> "connector_funcs->best_encoder"
+	"connector_funcs->best_encoder" [style=filled, fillcolor=blue]
+	drm_pick_crtcs -> memcpy
+	drm_pick_crtcs -> drm_pick_crtcs
+	drm_pick_crtcs -> memcpy
+	drm_pick_crtcs -> kfree
+
+	drm_setup_crtcs -> DRM_DEBUG_KMS
+	drm_setup_crtcs -> kcalloc
+	drm_setup_crtcs -> kcalloc
+	drm_setup_crtcs -> kcalloc
+	drm_setup_crtcs -> DRM_ERROR
+	drm_setup_crtcs -> drm_enable_connectors
+	drm_setup_crtcs -> "fb_helper->funcs->initial_config"
+	"fb_helper->funcs->initial_config" [style=filled, fillcolor=blue]
+	drm_setup_crtcs -> drm_target_cloned
+	drm_setup_crtcs -> drm_target_preferred
+	drm_setup_crtcs -> drm_pick_crtcs
+	drm_setup_crtcs -> drm_mode_destroy
+	drm_setup_crtcs -> BUG_ON
+	drm_setup_crtcs -> drm_mode_destroy
+	drm_setup_crtcs -> kfree
+	drm_setup_crtcs -> kfree
+	drm_setup_crtcs -> kfree
+
+	drm_fb_helper_initial_config -> drm_fb_helper_parse_command_line
+	drm_fb_helper_initial_config -> mutex_lock
+	drm_fb_helper_initial_config -> drm_fb_helper_probe_connector_modes
+	drm_fb_helper_initial_config -> mutex_unlock
+	drm_fb_helper_initial_config -> dev_info
+	drm_fb_helper_initial_config -> drm_setup_crtcs
+	drm_fb_helper_initial_config -> drm_fb_helper_single_fb_probe
+
+	drm_fb_helper_hotplug_event -> mutex_lock
+	drm_fb_helper_hotplug_event -> drm_fb_helper_is_bound
+	drm_fb_helper_hotplug_event -> mutex_unlock
+	drm_fb_helper_hotplug_event -> drm_fb_helper_probe_connector_modes
+	drm_fb_helper_hotplug_event -> mutex_unlock
+	drm_fb_helper_hotplug_event -> drm_modeset_lock_all
+	drm_fb_helper_hotplug_event -> drm_setup_crtcs
+	drm_fb_helper_hotplug_event -> drm_modeset_unlock_all
+	drm_fb_helper_hotplug_event -> drm_fb_helper_set_par
+
+	drm_fb_helper_modinit -> mutex_lock
+	drm_fb_helper_modinit -> find_module
+	drm_fb_helper_modinit -> mutex_unlock
+	drm_fb_helper_modinit -> request_module_nowait
+
+# drm_flip_work.c
+	drm_flip_work_queue -> kfifo_put
+	drm_flip_work_queue -> atomic_inc
+	drm_flip_work_queue -> DRM_ERROR
+	drm_flip_work_queue -> "work->func"
+	"work->func" [style=filled, fillcolor=blue]
+
+	drm_flip_work_commit -> atomic_read
+	drm_flip_work_commit -> atomic_add
+	drm_flip_work_commit -> atomic_sub
+	drm_flip_work_commit -> queue_work
+
+	flip_worker -> container_of
+	flip_worker -> atomic_read
+	flip_worker -> atomic_sub
+	flip_worker -> WARN_ON
+	flip_worker -> "work->func"
+	"work->func" [style=filled, fillcolor=blue]
+
+	drm_flip_work_init -> atomic_set
+	drm_flip_work_init -> atomic_set
+	drm_flip_work_init -> kfifo_alloc
+	drm_flip_work_init -> DRM_ERROR
+	drm_flip_work_init -> INIT_WORK
+
+	drm_flip_work_cleanup -> WARN_ON
+	drm_flip_work_cleanup -> kfifo_is_empty
+	drm_flip_work_cleanup -> kfifo_free
+
+# drm_fops.c
+	drm_setup -> drm_core_check_feature
+	drm_setup -> "dev->driver->firstopen"
+	"dev->driver->firstopen" [style=filled, fillcolor=blue]
+	drm_setup -> drm_legacy_dma_setup
+	drm_setup -> DRM_DEBUG
+
+	drm_open -> drm_minor_acquire
+	drm_open -> IS_ERR
+	drm_open -> PTR_ERR
+	drm_open -> drm_open_helper
+	drm_open -> drm_setup
+	drm_open -> drm_minor_release
+
+	drm_stub_open -> DRM_DEBUG
+	drm_stub_open -> mutex_lock
+	drm_stub_open -> drm_minor_acquire
+	drm_stub_open -> IS_ERR
+	drm_stub_open -> fops_get
+	drm_stub_open -> replace_fops
+	drm_stub_open -> "filp->f_op->open"
+	"filp->f_op->open" [style=filled, fillcolor=blue]
+	drm_stub_open -> drm_minor_release
+	drm_stub_open -> mutex_unlock
+
+	drm_open_helper -> DRM_DEBUG
+	drm_open_helper -> kzalloc
+	drm_open_helper -> current_euid
+	drm_open_helper -> get_pid -> task_pid
+	drm_open_helper -> capable
+	drm_open_helper -> INIT_LIST_HEAD
+	drm_open_helper -> INIT_LIST_HEAD
+	drm_open_helper -> mutex_init
+	drm_open_helper -> INIT_LIST_HEAD
+	drm_open_helper -> init_waitqueue_head
+	drm_open_helper -> drm_gem_open
+	drm_open_helper -> drm_core_check_feature
+	drm_open_helper -> drm_prime_init_file_private
+	drm_open_helper -> "dev->driver->open"
+	"dev->driver->open" [style=filled, fillcolor=blue]
+	drm_open_helper -> mutex_lock
+	drm_open_helper -> drm_is_primary_client
+	drm_open_helper -> drm_master_create
+	drm_open_helper -> drm_master_get
+	drm_open_helper -> "dev->driver->master_create"
+	"dev->driver->master_create" [style=filled, fillcolor=blue]
+	drm_open_helper -> drm_master_put
+	drm_open_helper -> drm_master_put
+	drm_open_helper -> "dev->driver->master_set"
+	"dev->driver->master_set" [style=filled, fillcolor=blue]
+	drm_open_helper -> drm_master_put
+	drm_open_helper -> drm_master_put
+	drm_open_helper -> drm_is_primary_client
+	drm_open_helper -> drm_master_get
+	drm_open_helper -> mutex_unlock
+	drm_open_helper -> mutex_lock
+	drm_open_helper -> list_add
+	drm_open_helper -> mutex_unlock
+	drm_open_helper -> mutex_unlock
+	drm_open_helper -> "dev->driver->postclose"
+	"dev->driver->postclose" [style=filled, fillcolor=blue]
+	drm_open_helper -> drm_core_check_feature
+	drm_open_helper -> drm_prime_destroy_file_private
+	drm_open_helper -> drm_gem_release
+	drm_open_helper -> put_pid
+	drm_open_helper -> kfree
+
+	drm_master_release -> drm_i_have_hw_lock
+	drm_master_release -> DRM_DEBUG -> _DRM_LOCKING_CONTEXT
+	drm_master_release -> drm_lock_free -> _DRM_LOCKING_CONTEXT
+
+	drm_events_release -> spin_lock_irqsave
+	drm_events_release -> list_for_each_entry_safe
+	drm_events_release -> list_del
+	drm_events_release -> drm_vblank_put
+	drm_events_release -> "v->base.destroy"
+	"v->base.destroy" [style=filled, fillcolor=blue]
+	drm_events_release -> list_for_each_entry_safe
+	drm_events_release -> list_del
+	drm_events_release -> "e->destroy"
+	"e->destroy" [style=filled, fillcolor=blue]
+	drm_events_release -> spin_unlock_irqrestore
+
+	drm_legacy_dev_reinit -> drm_core_check_feature
+
+	drm_lastclose -> "dev->driver->lastclose"
+	"dev->driver->lastclose" [style=filled, fillcolor=blue]
+	drm_lastclose -> drm_core_check_feature
+	drm_lastclose -> drm_irq_uninstall
+	drm_lastclose -> mutex_lock
+	drm_lastclose -> drm_agp_clear
+	drm_lastclose -> drm_legacy_sg_cleanup
+	drm_lastclose -> list_for_each_entry_safe
+	drm_lastclose -> list_del
+	drm_lastclose -> kfree
+	drm_lastclose -> drm_legacy_dma_takedown
+	drm_lastclose -> mutex_unlock
+	drm_lastclose -> drm_legacy_dev_reinit
+	drm_lastclose -> DRM_DEBUG
+
+	drm_release -> mutex_lock
+	drm_release -> DRM_DEBUG
+	drm_release -> "dev->driver->preclose"
+	"dev->driver->preclose" [style=filled, fillcolor=blue]
+	drm_release -> old_encode_dev
+	drm_release -> drm_remove_magic
+	drm_release -> drm_master_release
+	drm_release -> drm_core_check_feature
+	drm_release -> drm_core_reclaim_buffers
+	drm_release -> drm_events_release
+	drm_release -> drm_fb_release
+	drm_release -> drm_gem_release
+	drm_release -> mutex_lock
+	drm_release -> list_empty
+	drm_release -> list_for_each_entry_safe
+	drm_release -> "dev->driver->context_dtor"
+	"dev->driver->context_dtor" [style=filled, fillcolor=blue]
+	drm_release -> drm_ctxbitmap_free
+	drm_release -> list_del
+	drm_release -> kfree
+	drm_release -> mutex_unlock
+	drm_release -> mutex_lock
+	drm_release -> mutex_lock
+	drm_release -> list_for_each_entry
+	drm_release -> wake_up_interruptible_all
+	drm_release -> mutex_unlock
+	drm_release -> "dev->driver->master_drop"
+	"dev->driver->master_drop" [style=filled, fillcolor=blue]
+	drm_release -> drm_master_put
+	drm_release -> drm_master_put
+	drm_release -> mutex_unlock
+	drm_release -> mutex_lock
+	drm_release -> list_del
+	drm_release -> mutex_unlock
+	drm_release -> "dev->driver->postclose"
+	"dev->driver->postclose" [style=filled, fillcolor=blue]
+	drm_release -> drm_core_check_feature
+	drm_release -> drm_prime_destroy_file_private
+	drm_release -> put_pid
+	drm_release -> kfree
+	drm_release -> drm_device_is_unplugged
+	drm_release -> drm_put_dev
+	drm_release -> mutex_unlock
+	drm_release -> drm_minor_release
+
+	drm_dequeue_event -> spin_lock_irqsave
+	drm_dequeue_event -> list_empty
+	drm_dequeue_event -> list_first_entry
+	drm_dequeue_event -> list_del
+	drm_dequeue_event -> spin_unlock_irqrestore
+
+	drm_read -> wait_event_interruptible
+	drm_read -> drm_dequeue_event
+	drm_read -> copy_to_user
+	drm_read -> "e->destroy"
+	"e->destroy" [style=filled, fillcolor=blue]
+
+	drm_poll -> poll_wait
+	drm_poll -> list_empty
+
+# drm_gem.c
+	drm_gem_init -> mutex_init
+	drm_gem_init -> idr_init
+	drm_gem_init -> kzalloc
+	drm_gem_init -> DRM_ERROR
+	drm_gem_init -> drm_vma_offset_manager_init
+
+	drm_gem_destroy -> drm_vma_offset_manager_destroy
+	drm_gem_destroy -> kfree
+
+	drm_gem_object_init -> drm_gem_private_object_init
+	drm_gem_object_init -> shmem_file_setup
+	drm_gem_object_init -> IS_ERR
+	drm_gem_object_init -> PTR_ERR
+
+	drm_gem_private_object_init -> BUG_ON
+	drm_gem_private_object_init -> kref_init
+	drm_gem_private_object_init -> drm_vma_node_reset
+
+	drm_gem_remove_prime_handles -> mutex_lock
+	drm_gem_remove_prime_handles -> drm_prime_remove_buf_handle_locked
+	drm_gem_remove_prime_handles -> mutex_unlock
+
+	drm_gem_object_handle_free -> idr_remove
+
+	drm_gem_object_exported_dma_buf_free -> dma_buf_put
+
+	drm_gem_object_handle_unreference_unlocked -> mutex_lock
+	drm_gem_object_handle_unreference_unlocked -> drm_gem_object_handle_free
+	drm_gem_object_handle_unreference_unlocked -> drm_gem_object_exported_dma_buf_free
+	drm_gem_object_handle_unreference_unlocked -> mutex_unlock
+	drm_gem_object_handle_unreference_unlocked -> drm_gem_object_unreference_unlocked
+
+	drm_gem_handle_delete -> spin_lock
+	drm_gem_handle_delete -> idr_find
+	drm_gem_handle_delete -> spin_unlock
+	drm_gem_handle_delete -> idr_remove
+	drm_gem_handle_delete -> spin_unlock
+	drm_gem_handle_delete -> drm_core_check_feature
+	drm_gem_handle_delete -> drm_gem_remove_prime_handles
+	drm_gem_handle_delete -> drm_vma_node_revoke
+	drm_gem_handle_delete -> "dev->driver->gem_close_object"
+	"dev->driver->gem_close_object" [style=filled, fillcolor=blue]
+	drm_gem_handle_delete -> drm_gem_object_handle_unreference_unlocked
+
+	drm_gem_dumb_destroy -> drm_gem_handle_delete
+
+	drm_gem_handle_create_tail -> WARN_ON
+	drm_gem_handle_create_tail -> idr_preload
+	drm_gem_handle_create_tail -> spin_lock
+	drm_gem_handle_create_tail -> idr_alloc
+	drm_gem_handle_create_tail -> drm_gem_object_reference
+	drm_gem_handle_create_tail -> spin_unlock
+	drm_gem_handle_create_tail -> idr_preload_end
+	drm_gem_handle_create_tail -> mutex_unlock
+	drm_gem_handle_create_tail -> drm_gem_object_handle_unreference_unlocked
+	drm_gem_handle_create_tail -> drm_vma_node_allow
+	drm_gem_handle_create_tail -> drm_gem_handle_delete
+	drm_gem_handle_create_tail -> "dev->driver->gem_open_object"
+	"dev->driver->gem_open_object" [style=filled, fillcolor=blue]
+	drm_gem_handle_create_tail -> drm_gem_handle_delete
+
+	drm_gem_handle_create -> 
+
+
+
+
 
 
 
