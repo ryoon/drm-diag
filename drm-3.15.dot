@@ -3205,5 +3205,650 @@ digraph drm315 {
 	drm_handle_vblank -> drm_handle_vblank_events
 	drm_handle_vblank -> spin_unlock_irqrestore
 
+# drm_lock.c
+	drm_lock -> DRM_ERROR
+	drm_lock -> task_pid_nr
+	drm_lock -> task_pid_nr
+	drm_lock -> add_wait_queue
+	drm_lock -> spin_lock_bh
+	drm_lock -> spin_unlock_bh
+	drm_lock -> __set_current_state
+	drm_lock -> send_sig
+	drm_lock -> drm_lock_take
+	drm_lock -> mutex_unlock
+	drm_lock -> schedule
+	drm_lock -> mutex_lock
+	drm_lock -> signal_pending
+	drm_lock -> spin_lock_bh
+	drm_lock -> spin_unlock_bh
+	drm_lock -> __set_current_state
+	drm_lock -> remove_wait_queue
+	drm_lock -> sigemptyset
+	drm_lock -> sigaddset
+	drm_lock -> sigaddset
+	drm_lock -> sigaddset
+	drm_lock -> sigaddset
+	drm_lock -> block_all_signals
+	drm_lock -> "dev->driver->dma_quiescent"
+	"dev->driver->dma_quiescent" [style=filled, fillcolor=blue]
+
+	drm_unlock -> DRM_ERROR
+	drm_lock -> task_pid_nr
+	drm_lock -> drm_lock_free
+	drm_lock -> unblock_all_signals
+
+	drm_lock_take -> spin_lock_bh
+	drm_lock_take -> cmpxchg
+	drm_lock_take -> spin_unlock_bh
+	drm_lock_take -> _DRM_LOCKING_CONTEXT
+	drm_lock_take -> DRM_ERROR
+	drm_lock_take -> _DRM_LOCKING_CONTEXT
+
+	drm_lock_transfer -> cmpxchg
+
+	drm_lock_free -> spin_lock_bh
+	drm_lock_free -> drm_lock_transfer
+	drm_lock_free -> spin_unlock_bh
+	drm_lock_free -> spin_unlock_bh
+	drm_lock_free -> _DRM_LOCKING_CONTEXT
+	drm_lock_free -> cmpxchg
+	drm_lock_free -> _DRM_LOCK_IS_HELD
+	drm_lock_free -> _DRM_LOCKING_CONTEXT
+	drm_lock_free -> DRM_ERROR
+	drm_lock_free -> _DRM_LOCKING_CONTEXT
+	drm_lock_free -> wake_up_interruptible
+
+	drm_notifier -> _DRM_LOCK_IS_HELD
+	drm_notifier -> _DRM_LOCKING_CONTEXT
+	drm_notifier -> cmpxchg
+
+	drm_idlelock_take -> spin_lock_bh
+	drm_idlelock_take -> spin_unlock_bh
+	drm_idlelock_take -> drm_lock_take
+	drm_idlelock_take -> spin_lock_bh
+	drm_idlelock_take -> spin_unlock_bh
+
+	drm_idlelock_release -> spin_lock_bh
+	drm_idlelock_release -> cmpxchg
+	drm_idlelock_release -> wake_up_interruptible
+	drm_idlelock_release -> spin_unlock_bh
+
+	drm_i_have_hw_lock -> _DRM_LOCK_IS_HELD
+
+# drm_memory.c
+	agp_remap -> PAGE_ALIGN
+	agp_remap -> PAGE_ALIGN
+	agp_remap -> list_for_each_entry
+	agp_remap -> vmalloc
+	agp_remap -> vmap
+	agp_remap -> vfree
+
+	drm_free_agp -> agp_free_memory
+
+	drm_bind_agp -> agp_bind_memory
+
+	drm_unbind_agp -> agp_unbind_memory
+
+	drm_core_ioremap -> agp_remap
+	drm_core_ioremap -> ioremap
+
+	drm_core_ioremap_wc -> agp_remap
+	drm_core_ioremap_wc -> ioremap_wc
+
+	drm_core_ioremapfree -> vunmap
+	drm_core_ioremapfree -> iounmap
+
+# drm_mipi_dsi.c
+	mipi_dsi_device_match -> of_driver_match_device
+
+	mipi_dsi_dev_release -> to_mipi_dsi_device
+	mipi_dsi_dev_release -> of_node_put
+
+	mipi_dsi_device_alloc -> kzalloc
+	mipi_dsi_device_alloc -> device_initialize
+
+	mipi_dsi_device_add -> dev_set_name -> dev_name
+	mipi_dsi_device_add -> device_add
+
+	of_mipi_dsi_device_add -> of_property_read_u32
+	of_mipi_dsi_device_add -> dev_err
+	of_mipi_dsi_device_add -> ERR_PTR
+	of_mipi_dsi_device_add -> dev_err
+	of_mipi_dsi_device_add -> ERR_PTR
+	of_mipi_dsi_device_add -> mipi_dsi_device_alloc
+	of_mipi_dsi_device_add -> IS_ERR
+	of_mipi_dsi_device_add -> dev_err
+	of_mipi_dsi_device_add -> PTR_ERR
+	of_mipi_dsi_device_add -> of_node_get
+	of_mipi_dsi_device_add -> mipi_dsi_device_add
+	of_mipi_dsi_device_add -> dev_err
+	of_mipi_dsi_device_add -> kfree
+	of_mipi_dsi_device_add -> ERR_PTR
+
+	mipi_dsi_host_register -> for_each_available_child_of_node
+	mipi_dsi_host_register -> of_find_property
+	mipi_dsi_host_register -> of_mipi_dsi_device_add
+
+	mipi_dsi_remove_device_fn -> to_mipi_dsi_device
+	mipi_dsi_remove_device_fn -> device_unregister
+
+	mipi_dsi_host_unregister -> device_for_each_child
+
+	mipi_dsi_attach -> "ops->attach"
+	"ops->attach" [style=filled, fillcolor=blue]
+
+	mipi_dsi_detach -> "ops->detach"
+	"ops->detach" [style=filled, fillcolor=blue]
+
+	mipi_dsi_dcs_write -> "ops->transfer"
+	"ops->transfer" [style=filled, fillcolor=blue]
+
+	mipi_dsi_dcs_read -> "ops->transfer"
+	"ops->transfer" [style=filled, fillcolor=blue]
+
+	mipi_dsi_drv_probe -> "drv->probe"
+	"drv->probe" [style=filled, fillcolor=blue]
+
+	mipi_dsi_drv_remove -> to_mipi_dsi_driver
+	mipi_dsi_drv_remove -> to_mipi_dsi_device
+	mipi_dsi_drv_remove -> "drv->remove"
+	"drv->remove" [style=filled, fillcolor=blue]
+
+	mipi_dsi_driver_register -> driver_register
+
+	mipi_dsi_driver_unregister -> driver_unregister
+
+	mipi_dsi_bus_init -> bus_register
+
+# drm_mm.c
+	drm_mm_insert_helper -> drm_mm_hole_node_start
+	drm_mm_insert_helper -> drm_mm_hole_node_end
+	drm_mm_insert_helper -> "mm->color_adjust"
+	"mm->color_adjust" [style=filled, fillcolor=blue]
+	drm_mm_insert_helper -> BUG_ON
+	drm_mm_insert_helper -> list_del
+	drm_mm_insert_helper -> INIT_LIST_HEAD
+	drm_mm_insert_helper -> list_add
+	drm_mm_insert_helper -> list_add
+
+	drm_mm_reserve_node -> BUG_ON
+	drm_mm_insert_helper -> INIT_LIST_HEAD
+	drm_mm_insert_helper -> list_add
+	drm_mm_insert_helper -> list_del_init
+	drm_mm_insert_helper -> list_add
+
+	drm_mm_insert_node_generic -> drm_mm_search_free_generic
+	drm_mm_insert_node_generic -> drm_mm_insert_helper
+
+	drm_mm_insert_helper_range -> drm_mm_hole_node_start
+	drm_mm_insert_helper_range -> drm_mm_hole_node_end
+	drm_mm_insert_helper_range -> BUG_ON
+	drm_mm_insert_helper_range -> "mm->color_adjust"
+	"mm->color_adjust" [style=filled, fillcolor=blue]
+	drm_mm_insert_helper_range -> list_del
+	drm_mm_insert_helper_range -> INIT_LIST_HEAD
+	drm_mm_insert_helper_range -> list_add
+	drm_mm_insert_helper_range -> __drm_mm_hole_node_start
+	drm_mm_insert_helper_range -> list_add
+
+	drm_mm_insert_node_in_range_generic -> drm_mm_search_free_in_range_generic
+	drm_mm_insert_node_in_range_generic -> drm_mm_insert_helper_range
+
+	drm_mm_remove_node -> WARN_ON
+	drm_mm_remove_node -> BUG_ON
+	drm_mm_remove_node -> list_entry
+	drm_mm_remove_node -> list_del
+	drm_mm_remove_node -> __drm_mm_hole_node_start
+	drm_mm_remove_node -> __drm_mm_hole_node_end
+	drm_mm_remove_node -> list_add
+	drm_mm_remove_node -> list_move
+	drm_mm_remove_node -> list_del
+
+	drm_mm_search_free_generic -> BUG_ON
+	check_free_hole -> __drm_mm_for_each_hole
+	check_free_hole -> "mm->color_adjust"
+	"mm->color_adjust" [style=filled, fillcolor=blue]
+	check_free_hole -> check_free_hole
+
+	drm_mm_search_free_in_range_generic -> BUG_ON
+	drm_mm_search_free_in_range_generic -> __drm_mm_for_each_hole
+	drm_mm_search_free_in_range_generic -> "mm->color_adjust"
+	"mm->color_adjust" [style=filled, fillcolor=blue]
+
+	drm_mm_replace_node -> list_replace
+	drm_mm_replace_node -> list_replace
+
+	drm_mm_scan_add_block -> BUG_ON
+	drm_mm_scan_add_block -> list_entry
+	drm_mm_scan_add_block -> list_del
+	drm_mm_scan_add_block -> drm_mm_hole_node_start
+	drm_mm_scan_add_block -> drm_mm_hole_node_end
+	"mm->color_adjust" [style=filled, fillcolor=blue]
+
+	drm_mm_scan_remove_block -> BUG_ON
+	drm_mm_scan_remove_block -> list_entry
+	drm_mm_scan_remove_block -> list_add
+	drm_mm_scan_remove_block -> drm_mm_hole_node_end
+
+	drm_mm_init -> INIT_LIST_HEAD
+	drm_mm_init -> INIT_LIST_HEAD
+	drm_mm_init -> list_add_tail
+
+	drm_mm_takedown -> WARN
+	drm_mm_takedown -> list_empty
+
+	drm_mm_debug_hole -> drm_mm_hole_node_start
+	drm_mm_debug_hole -> drm_mm_hole_node_end
+	drm_mm_debug_hole -> printk
+
+	drm_mm_debug_table -> drm_mm_debug_hole
+	drm_mm_debug_table -> drm_mm_for_each_node
+	drm_mm_debug_table -> printk
+	drm_mm_debug_table -> drm_mm_debug_hole
+	drm_mm_debug_table -> printk
+
+	drm_mm_dump_hole -> drm_mm_hole_node_start
+	drm_mm_dump_hole -> drm_mm_hole_node_end
+	drm_mm_dump_hole -> seq_printf
+
+	drm_mm_dump_table -> drm_mm_dump_hole
+	drm_mm_dump_hole -> drm_mm_for_each_node
+	drm_mm_dump_hole -> seq_printf
+	drm_mm_dump_hole -> drm_mm_dump_hole
+	drm_mm_dump_hole -> seq_printf
+
+# drm_modes.c
+	drm_mode_debug_printmodeline -> DRM_DEBUG_KMS
+
+	drm_mode_create -> kzalloc
+	drm_mode_create -> drm_mode_object_get
+
+	drm_mode_destroy -> drm_mode_object_put
+	drm_mode_destroy -> kfree
+
+	drm_mode_probed_add -> WARN_ON
+	drm_mode_probed_add -> mutex_is_locked
+	drm_mode_probed_add -> list_add_tail
+
+	drm_cvt_mode -> drm_mode_create
+	drm_cvt_mode -> drm_mode_set_name
+
+	drm_gtf_mode_complex -> drm_mode_create
+	drm_gtf_mode_complex -> drm_mode_set_name
+
+	drm_gtf_mode -> drm_gtf_mode_complex
+
+	drm_display_mode_from_videomode -> drm_mode_set_name
+
+	of_get_drm_display_mode -> of_get_videomode
+	of_get_drm_display_mode -> drm_display_mode_from_videomode
+	of_get_drm_display_mode -> pr_debug -> of_node_full_name
+	of_get_drm_display_mode -> drm_mode_debug_printmodeline
+
+	drm_mode_set_name -> snprintf
+
+	drm_mode_set_crtcinfo -> max
+	drm_mode_set_crtcinfo -> min
+
+	drm_mode_duplicate -> drm_mode_create
+	drm_mode_duplicate -> drm_mode_copy
+
+	drm_mode_equal -> KHZ2PICOS
+	drm_mode_equal -> KHZ2PICOS
+	drm_mode_equal -> drm_mode_equal_no_clocks_no_stereo
+
+	drm_mode_validate_size -> list_for_each_entry
+
+	drm_mode_prune_invalid -> list_for_each_entry_safe
+	drm_mode_prune_invalid -> list_del
+	drm_mode_prune_invalid -> drm_mode_debug_printmodeline
+	drm_mode_prune_invalid -> DRM_DEBUG_KMS
+	drm_mode_prune_invalid -> drm_mode_destroy
+
+	drm_mode_compare -> list_entry
+	drm_mode_compare -> list_entry
+
+	drm_mode_sort -> list_sort
+
+	drm_mode_connector_list_update -> WARN_ON
+	drm_mode_connector_list_update -> list_for_each_entry_safe
+	drm_mode_connector_list_update -> list_for_each_entry
+	drm_mode_connector_list_update -> drm_mode_equal
+	drm_mode_connector_list_update -> list_del
+	drm_mode_connector_list_update -> drm_mode_destroy
+	drm_mode_connector_list_update -> list_move_tail
+
+	drm_mode_parse_command_line_for_connector -> simple_strtol
+	drm_mode_parse_command_line_for_connector -> simple_strtol
+	drm_mode_parse_command_line_for_connector -> simple_strtol
+	drm_mode_parse_command_line_for_connector -> simple_strtol
+	drm_mode_parse_command_line_for_connector -> printk
+
+	drm_mode_create_from_cmdline_mode -> drm_cvt_mode
+	drm_mode_create_from_cmdline_mode -> drm_gtf_mode
+	drm_mode_create_from_cmdline_mode -> drm_mode_set_crtcinfo
+
+# drm_panel.c
+	drm_panel_init -> INIT_LIST_HEAD
+
+	drm_panel_add -> mutex_lock
+	drm_panel_add -> list_add_tail
+	drm_panel_add -> mutex_unlock
+
+	drm_panel_remove -> mutex_lock
+	drm_panel_remove -> list_del_init
+	drm_panel_remove -> mutex_unlock
+
+	of_drm_find_panel -> mutex_lock
+	of_drm_find_panel -> list_for_each_entry
+	of_drm_find_panel -> mutex_unlock
+	of_drm_find_panel -> mutex_unlock
+
+	drm_pci_alloc -> kmalloc
+	drm_pci_alloc -> dma_alloc_coherent
+	drm_pci_alloc -> kfree
+	drm_pci_alloc -> memset
+	drm_pci_alloc -> SetPageReserved
+
+	__drm_pci_free -> ClearPageReserved -> virt_to_page
+	__drm_pci_free -> dma_free_coherent
+
+	drm_pci_free -> __drm_pci_free
+	drm_pci_free -> kfree
+
+	drm_get_pci_domain -> pci_domain_nr
+
+	drm_pci_set_busid -> kmalloc
+	drm_pci_set_busid -> snprintf
+	drm_pci_set_busid -> drm_get_pci_domain
+	drm_pci_set_busid -> DRM_ERROR
+	drm_pci_set_busid -> kmalloc
+	drm_pci_set_busid -> sprintf
+
+	drm_pci_set_unique -> kmalloc
+	drm_pci_set_unique -> copy_from_user
+	drm_pci_set_unique -> "dev->driver->bus->get_name"
+	"dev->driver->bus->get_name" [style=filled, fillcolor=blue]
+	drm_pci_set_unique -> kmalloc
+	drm_pci_set_unique -> strlen
+	drm_pci_set_unique -> strlen
+	drm_pci_set_unique -> sprintf
+	drm_pci_set_unique -> sscanf
+	drm_pci_set_unique -> drm_get_pci_domain
+	drm_pci_set_unique -> PCI_SLOT
+	drm_pci_set_unique -> PCI_FUNC
+
+	drm_pci_irq_by_busid -> PCI_SLOT
+	drm_pci_irq_by_busid -> PCI_FUNC
+	drm_pci_irq_by_busid -> DRM_DEBUG
+
+	drm_pci_agp_init -> drm_core_check_feature
+	drm_pci_agp_init -> drm_pci_device_is_agp
+	drm_pci_agp_init -> drm_agp_init
+	drm_pci_agp_init -> arch_phys_wc_add
+
+	drm_pci_agp_destroy -> arch_phys_wc_del
+	drm_pci_agp_destroy -> drm_agp_clear
+	drm_pci_agp_destroy -> kfree
+
+	drm_get_pci_dev -> DRM_DEBUG
+	drm_get_pci_dev -> drm_dev_alloc
+	drm_get_pci_dev -> pci_enable_device
+	drm_get_pci_dev -> drm_core_check_feature
+	drm_get_pci_dev -> pci_set_drvdata
+	drm_get_pci_dev -> drm_pci_agp_init
+	drm_get_pci_dev -> drm_dev_register
+	drm_get_pci_dev -> DRM_INFO
+	drm_get_pci_dev -> drm_core_check_feature
+	drm_get_pci_dev -> list_add_tail
+	drm_get_pci_dev -> drm_pci_agp_destroy
+	drm_get_pci_dev -> pci_disable_device
+	drm_get_pci_dev -> drm_dev_unref
+
+	drm_pci_init -> DRM_DEBUG
+	drm_pci_init -> pci_register_driver
+	drm_pci_init -> INIT_LIST_HEAD
+	drm_pci_init -> pci_get_subsys
+	drm_pci_init -> pci_dev_get
+	drm_pci_init -> drm_get_pci_dev
+
+	drm_pcie_get_speed_cap_mask -> pcie_capability_read_dword
+	drm_pcie_get_speed_cap_mask -> pcie_capability_read_dword
+	drm_pcie_get_speed_cap_mask -> DRM_INFO
+
+	drm_pci_exit -> DRM_DEBUG
+	drm_pci_exit -> pci_unregister_driver
+	drm_pci_exit -> list_for_each_entry_safe
+	drm_pci_exit -> list_del
+	drm_pci_exit -> drm_put_dev
+	drm_pci_exit -> DRM_INFO
+
+# drm_plane_helper.c
+	get_connectors_for_crtc -> list_for_each_entry
+
+	drm_primary_helper_update -> DRM_DEBUG_KMS
+	drm_primary_helper_update -> BUG_ON
+	drm_primary_helper_update -> kzalloc
+	drm_primary_helper_update -> get_connectors_for_crtc
+	drm_primary_helper_update -> "crtc->funcs->set_config"
+	"crtc->funcs->set_config" [style=filled, fillcolor=blue]
+	drm_primary_helper_update -> kfree
+
+	drm_primary_helper_destroy -> "plane->funcs->disable_plane"
+	"plane->funcs->disable_plane" [style=filled, fillcolor=blue]
+	drm_primary_helper_destroy -> drm_plane_cleanup
+	drm_primary_helper_destroy -> kfree
+
+	drm_primary_helper_create_plane -> kzalloc
+	drm_primary_helper_create_plane -> DRM_DEBUG_KMS
+	drm_primary_helper_create_plane -> ARRAY_SIZE
+	drm_primary_helper_create_plane -> drm_plane_init
+	drm_primary_helper_create_plane -> kfree
+
+	drm_crtc_init -> drm_primary_helper_create_plane
+	drm_crtc_init -> drm_crtc_init_with_planes
+
+# drm_platform.c
+	drm_get_platform_dev -> drm_dev_alloc
+	drm_get_platform_dev -> drm_dev_register
+	drm_get_platform_dev -> DRM_INFO
+	drm_get_platform_dev -> drm_dev_unref
+
+	drm_platform_get_irq -> platform_get_irq
+
+	drm_platform_set_busid -> strlen
+	drm_platform_set_busid -> kmalloc
+	drm_platform_set_busid -> snprintf
+	drm_platform_set_busid -> DRM_ERROR
+	drm_platform_set_busid -> kmalloc
+	drm_platform_set_busid -> strlen
+	drm_platform_set_busid -> sprintf
+
+	drm_platform_init -> drm_get_platform_dev
+
+# drm_prime.c
+	drm_prime_add_buf_handle -> kmalloc
+	drm_prime_add_buf_handle -> get_dma_buf
+	drm_prime_add_buf_handle -> list_add
+
+	drm_prime_lookup_buf_by_handle -> list_for_each_entry
+
+	drm_prime_lookup_buf_handle -> list_for_each_entry
+
+	drm_gem_map_attach -> kzalloc
+	drm_gem_map_attach -> "dev->driver->gem_prime_pin"
+	"dev->driver->gem_prime_pin" [style=filled, fillcolor=blue]
+
+	drm_gem_map_detach -> "dev->driver->gem_prime_unpin"
+	"dev->driver->gem_prime_unpin" [style=filled, fillcolor=blue]
+	drm_gem_map_detach -> dma_unmap_sg
+	drm_gem_map_detach -> sg_free_table
+	drm_gem_map_detach -> kfree
+	drm_gem_map_detach -> kfree
+
+	drm_prime_remove_buf_handle_locked -> list_for_each_entry_safe
+	drm_prime_remove_buf_handle_locked -> dma_buf_put
+	drm_prime_remove_buf_handle_locked -> list_del
+	drm_prime_remove_buf_handle_locked -> kfree
+
+	drm_gem_map_dma_buf -> ERR_PTR
+	drm_gem_map_dma_buf -> WARN_ON
+	drm_gem_map_dma_buf -> "obj->dev->driver->gem_prime_get_sg_table"
+	"obj->dev->driver->gem_prime_get_sg_table" [style=filled, fillcolor=blue]
+	drm_gem_map_dma_buf -> IS_ERR
+	drm_gem_map_dma_buf -> dma_map_sg
+	drm_gem_map_dma_buf -> sg_free_table
+	drm_gem_map_dma_buf -> kfree
+	drm_gem_map_dma_buf -> ERR_PTR
+
+	drm_gem_dmabuf_release -> drm_gem_object_unreference_unlocked
+
+	drm_gem_dmabuf_vmap -> "dev->driver->gem_prime_vmap"
+	"dev->driver->gem_prime_vmap" [style=filled, fillcolor=blue]
+
+	drm_gem_dmabuf_vunmap -> "dev->driver->gem_prime_vunmap"
+	"dev->driver->gem_prime_vunmap" [style=filled, fillcolor=blue]
+
+	drm_gem_dmabuf_mmap -> "dev->driver->gem_prime_mmap"
+	"dev->driver->gem_prime_mmap" [style=filled, fillcolor=blue]
+
+	drm_gem_prime_export -> dma_buf_export
+
+	export_and_register_object -> ERR_PTR
+	export_and_register_object -> "dev->driver->gem_prime_export"
+	"dev->driver->gem_prime_export" [style=filled, fillcolor=blue]
+	export_and_register_object -> IS_ERR
+	export_and_register_object -> get_dma_buf
+	export_and_register_object -> drm_gem_object_reference
+
+	drm_gem_prime_handle_to_fd -> mutex_lock
+	drm_gem_prime_handle_to_fd -> drm_gem_object_lookup
+	drm_gem_prime_handle_to_fd -> drm_prime_lookup_buf_by_handle
+	drm_gem_prime_handle_to_fd -> get_dma_buf
+	drm_gem_prime_handle_to_fd -> mutex_lock
+	drm_gem_prime_handle_to_fd -> get_dma_buf
+	drm_gem_prime_handle_to_fd -> get_dma_buf
+	drm_gem_prime_handle_to_fd -> IS_ERR
+	drm_gem_prime_handle_to_fd -> PTR_ERR
+	drm_gem_prime_handle_to_fd -> mutex_unlock
+	drm_gem_prime_handle_to_fd -> drm_prime_add_buf_handle
+	drm_gem_prime_handle_to_fd -> mutex_unlock
+	drm_gem_prime_handle_to_fd -> dma_buf_fd
+	drm_gem_prime_handle_to_fd -> dma_buf_put
+	drm_gem_prime_handle_to_fd -> drm_gem_object_unreference_unlocked
+	drm_gem_prime_handle_to_fd -> mutex_unlock
+
+	drm_gem_prime_import -> ERR_PTR
+	drm_gem_prime_import -> drm_gem_object_reference
+	drm_gem_prime_import -> dma_buf_attach
+	drm_gem_prime_import -> IS_ERR
+	drm_gem_prime_import -> ERR_CAST
+	drm_gem_prime_import -> get_dma_buf
+	drm_gem_prime_import -> dma_buf_map_attachment
+	drm_gem_prime_import -> PTR_ERR
+	drm_gem_prime_import -> "dev->driver->gem_prime_import_sg_table"
+	"dev->driver->gem_prime_import_sg_table" [style=filled, fillcolor=blue]
+	drm_gem_prime_import -> dma_buf_unmap_attachment
+	drm_gem_prime_import -> dma_buf_detach
+	drm_gem_prime_import -> dma_buf_put
+
+	drm_gem_prime_fd_to_handle -> dma_buf_get
+	drm_gem_prime_fd_to_handle -> IS_ERR
+	drm_gem_prime_fd_to_handle -> PTR_ERR
+	drm_gem_prime_fd_to_handle -> mutex_lock
+	drm_gem_prime_fd_to_handle -> drm_prime_lookup_buf_handle
+	drm_gem_prime_fd_to_handle -> mutex_lock
+	drm_gem_prime_fd_to_handle -> "dev->driver->gem_prime_import"
+	"dev->driver->gem_prime_import" [style=filled, fillcolor=blue]
+	drm_gem_prime_fd_to_handle -> WARN_ON
+	drm_gem_prime_fd_to_handle -> get_dma_buf
+	drm_gem_prime_fd_to_handle -> drm_gem_handle_create_tail
+	drm_gem_prime_fd_to_handle -> drm_gem_object_unreference_unlocked
+	drm_gem_prime_fd_to_handle -> drm_prime_add_buf_handle
+	drm_gem_prime_fd_to_handle -> mutex_unlock
+	drm_gem_prime_fd_to_handle -> dma_buf_put
+	drm_gem_prime_fd_to_handle -> drm_gem_handle_delete
+	drm_gem_prime_fd_to_handle -> mutex_unlock
+	drm_gem_prime_fd_to_handle -> dma_buf_put
+	drm_gem_prime_fd_to_handle -> mutex_unlock
+
+	drm_prime_handle_to_fd_ioctl -> drm_core_check_feature
+	drm_prime_handle_to_fd_ioctl -> "dev->driver->prime_handle_to_fd"
+	"dev->driver->prime_handle_to_fd" [style=filled, fillcolor=blue]
+
+	drm_prime_fd_to_handle_ioctl -> drm_core_check_feature
+	drm_prime_fd_to_handle_ioctl -> "dev->driver->prime_fd_to_handle"
+	"dev->driver->prime_fd_to_handle" [style=filled, fillcolor=blue]
+
+	drm_prime_pages_to_sg -> kmalloc
+	drm_prime_pages_to_sg -> sg_alloc_table_from_pages
+	drm_prime_pages_to_sg -> kfree
+	drm_prime_pages_to_sg -> ERR_PTR
+
+	drm_prime_sg_to_page_addr_arrays -> for_each_sg
+	drm_prime_sg_to_page_addr_arrays -> sg_page
+	drm_prime_sg_to_page_addr_arrays -> sg_dma_address
+	drm_prime_sg_to_page_addr_arrays -> WARN_ON
+
+	drm_prime_gem_destroy -> dma_buf_unmap_attachment
+	drm_prime_gem_destroy -> dma_buf_detach
+	drm_prime_gem_destroy -> dma_buf_put
+
+	drm_prime_init_file_private -> INIT_LIST_HEAD
+	drm_prime_init_file_private -> mutex_init
+
+	drm_prime_destroy_file_private -> WARN_ON
+	drm_prime_destroy_file_private -> list_empty
+
+# drm_probe_helper.c
+	drm_mode_validate_flag -> list_for_each_entry
+
+	drm_helper_probe_single_connector_modes -> WARN_ON
+	drm_helper_probe_single_connector_modes -> mutex_is_locked
+	drm_helper_probe_single_connector_modes -> DRM_DEBUG_KMS
+	drm_helper_probe_single_connector_modes -> list_for_each_entry
+	drm_helper_probe_single_connector_modes -> "connector->status = connector->funcs->detect"
+	"connector->status = connector->funcs->detect" [style=filled, fillcolor=blue]
+	drm_helper_probe_single_connector_modes -> drm_kms_helper_poll_enable
+	drm_helper_probe_single_connector_modes -> DRM_DEBUG_KMS
+	drm_helper_probe_single_connector_modes -> drm_mode_connector_update_edid_property
+	drm_helper_probe_single_connector_modes -> drm_load_edid_firmware
+	drm_helper_probe_single_connector_modes -> "connector_funcs->get_modes"
+	"connector_funcs->get_modes" [style=filled, fillcolor=blue]
+	drm_helper_probe_single_connector_modes -> "connector_funcs->get_modes"
+	"connector_funcs->get_modes" [style=filled, fillcolor=blue]
+	drm_helper_probe_single_connector_modes -> drm_add_modes_noedid
+	drm_helper_probe_single_connector_modes -> drm_mode_connector_list_update
+	drm_helper_probe_single_connector_modes -> drm_mode_validate_size
+	drm_helper_probe_single_connector_modes -> drm_mode_validate_flag
+	drm_helper_probe_single_connector_modes -> list_for_each_entry
+	drm_helper_probe_single_connector_modes -> "connector_funcs->mode_valid"
+	drm_helper_probe_single_connector_modes -> drm_mode_prune_invalid
+	drm_helper_probe_single_connector_modes -> list_empty
+	drm_helper_probe_single_connector_modes -> list_for_each_entry
+	drm_helper_probe_single_connector_modes -> drm_mode_vrefresh
+	drm_helper_probe_single_connector_modes -> drm_mode_sort
+	drm_helper_probe_single_connector_modes -> DRM_DEBUG_KMS
+	drm_helper_probe_single_connector_modes -> drm_get_connector_name
+	drm_helper_probe_single_connector_modes -> list_for_each_entry
+	drm_helper_probe_single_connector_modes -> drm_mode_set_crtcinfo
+	drm_helper_probe_single_connector_modes -> drm_mode_debug_printmodeline
+
+	drm_kms_helper_hotplug_event -> drm_sysfs_hotplug_event
+	drm_kms_helper_hotplug_event -> "dev->mode_config.funcs->output_poll_changed"
+	"dev->mode_config.funcs->output_poll_changed" [style=filled, fillcolor=blue]
+
+	output_poll_execute -> 
+
+
+
+
+
+
+
+
+
+
+
 
 }
